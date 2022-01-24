@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.playsdev.firsttest.databinding.MainFragmentBinding
 import com.playsdev.testapp.sort.SortDialogFragment
-import com.playsdev.testapp.databinding.MainFragmentBinding
 
 class MainFragment: Fragment() {
 
-     private var binding: MainFragment? = null
+     private var binding: MainFragmentBinding? = null
 
      override fun onCreateView(
           inflater: LayoutInflater,
