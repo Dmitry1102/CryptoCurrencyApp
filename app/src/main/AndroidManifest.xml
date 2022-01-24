@@ -17,16 +17,19 @@
 
     <application
         android:allowBackup="true"
+        android:name=".MainApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstTest">
-        <service android:enabled="true" android:name=".service.InternetService" />
+        <service
+            android:enabled="true"
+            android:name=".service.InternetService" />
         <activity
-
             android:name=".MainActivity"
-            android:exported="true" />
+            android:exported="true" >
+        </activity>
         <activity
             android:name="com.playsdev.testapp.splash.SplashActivity"
             android:exported="true">
@@ -36,6 +39,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".service.NetworkChangeListener"  android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.INPUT_METHOD_CHANGED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

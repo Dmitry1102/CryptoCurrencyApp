@@ -1,9 +1,14 @@
 package com.playsdev.firsttest.service
 
+import android.app.AlertDialog
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.view.LayoutInflater
+import android.widget.Button
+import android.widget.Toast
+import com.playsdev.firsttest.R
 
 class CheckInternet {
     fun isOnline(context: Context): Boolean {

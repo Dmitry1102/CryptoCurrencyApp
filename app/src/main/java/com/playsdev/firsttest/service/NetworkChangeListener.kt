@@ -7,15 +7,16 @@ import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.widget.Button
+import android.widget.Toast
 import com.playsdev.firsttest.R
 
-class NetworkChangeListener(
-    private val checkInternet: CheckInternet
-) : BroadcastReceiver() {
+class NetworkChangeListener() : BroadcastReceiver() {
+
+    private val checkInternet = CheckInternet()
 
     @SuppressLint("InflateParams")
-    override fun onReceive(context: Context?, intent: Intent?) {
-        if (!checkInternet.isOnline(context!!)) {
+    override fun onReceive(context: Context, intent: Intent) {
+        if (!checkInternet.isOnline(context)) {
             val builder = AlertDialog.Builder(context)
             val layout =
                 LayoutInflater.from(context).inflate(R.layout.service_fragment, null)
@@ -31,4 +32,6 @@ class NetworkChangeListener(
             }
         }
     }
+
 }
+

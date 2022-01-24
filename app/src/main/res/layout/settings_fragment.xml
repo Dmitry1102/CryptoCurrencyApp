@@ -71,10 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-        <ImageView
-            android:id="@+id/iv_photo_take"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+
 
         <FrameLayout
             android:id="@+id/frame"
@@ -107,6 +104,7 @@
         android:paddingTop="15dp"
         android:paddingStart="15dp"
         android:letterSpacing="0.01"
+        android:maxLength="20"
         android:inputType="text"
         android:textSize="16sp"
         android:textColor="@color/gray"
@@ -127,6 +125,7 @@
         android:letterSpacing="0.01"
         android:lineHeight="24sp"
         android:paddingStart="15dp"
+        android:maxLength="20"
         android:paddingTop="15dp"
         android:textColor="@color/gray"
         android:textSize="16sp"
@@ -148,7 +147,9 @@
         android:letterSpacing="0.01"
         android:lineHeight="24sp"
         android:paddingStart="15dp"
+        android:enabled="false"
         android:paddingTop="15dp"
+        android:maxLength="20"
         android:textColor="@color/gray"
         android:textSize="16sp"
         android:focusable="false"

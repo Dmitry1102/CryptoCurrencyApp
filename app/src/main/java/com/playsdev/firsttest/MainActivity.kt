@@ -1,8 +1,12 @@
 package com.playsdev.firsttest
 
+import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.widget.Button
+import android.widget.Toast
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
@@ -29,9 +33,8 @@ class MainActivity : AppCompatActivity() {
 
         startService(Intent(this,InternetService::class.java))
 
-
-
     }
+
 
 
     override fun onDestroy() {
