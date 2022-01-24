@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/settings_fragment">
+
+    <FrameLayout
+        android:id="@+id/header_frame"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:background="@color/green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_header"
+            android:layout_width="273dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/roboto"
+            android:letterSpacing="0.01"
+            android:lineHeight="24sp"
+            android:text="@string/settings"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            tools:targetApi="p" />
+
+        <ImageView
+            android:id="@+id/iv_sort"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginStart="364dp"
+            android:layout_marginTop="22dp"
+            android:src="@drawable/save_icon_18" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frame_photo"
+        android:layout_width="0dp"
+        android:layout_height="248dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/header_frame">
+
+        <View
+            android:id="@+id/view_head"
+            android:layout_width="113dp"
+            android:layout_height="110dp"
+            android:layout_gravity="top|center"
+            android:layout_marginTop="11dp"
+            android:background="@drawable/head_icon" />
+
+        <View
+            android:id="@+id/view_body"
+            android:layout_width="209dp"
+            android:layout_height="111dp"
+            android:layout_gravity="bottom|center"
+            android:layout_marginTop="137dp"
+            android:background="@drawable/body_icon" />
+
+        <ImageView
+            android:id="@+id/iv_photo_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:id="@+id/iv_photo_take"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <FrameLayout
+            android:id="@+id/frame"
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:layout_gravity="bottom"
+            android:background="@color/gray_back">
+
+            <ImageView
+                android:id="@+id/iv_photo"
+                android:layout_width="30dp"
+                android:layout_height="27dp"
+                android:layout_gravity="center"
+                android:background="@drawable/photo_icon" />
+
+        </FrameLayout>
+
+    </FrameLayout>
+
+
+
+    <EditText
+        android:id="@+id/tv_name"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="@string/name"
+        android:paddingTop="15dp"
+        android:paddingStart="15dp"
+        android:letterSpacing="0.01"
+        android:inputType="text"
+        android:textSize="16sp"
+        android:textColor="@color/gray"
+        android:lineHeight="24sp"
+        android:fontFamily="@font/roboto"
+        android:background="@drawable/button_frame"
+        app:layout_constraintTop_toBottomOf="@+id/frame_photo"
+        tools:ignore="RtlSymmetry"
+        tools:targetApi="p" />
+
+    <EditText
+        android:id="@+id/tv_surname"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="@drawable/button_frame"
+        android:fontFamily="@font/roboto"
+        android:hint="@string/surname"
+        android:letterSpacing="0.01"
+        android:lineHeight="24sp"
+        android:paddingStart="15dp"
+        android:paddingTop="15dp"
+        android:textColor="@color/gray"
+        android:textSize="16sp"
+        android:inputType="text"
+        android:layout_marginTop="18dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name"
+        tools:ignore="RtlSymmetry"
+        tools:targetApi="p" />
+
+    <EditText
+        android:id="@+id/tv_data"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="@drawable/button_frame"
+        android:fontFamily="@font/roboto"
+        android:hint="@string/date_of_birth"
+        android:letterSpacing="0.01"
+        android:lineHeight="24sp"
+        android:paddingStart="15dp"
+        android:paddingTop="15dp"
+        android:textColor="@color/gray"
+        android:textSize="16sp"
+        android:focusable="false"
+        android:layout_marginTop="18dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_surname"
+        tools:ignore="RtlSymmetry"
+        tools:targetApi="p" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

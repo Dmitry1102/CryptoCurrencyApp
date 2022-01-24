@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_header"
+        android:layout_width="170dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:letterSpacing="0.01"
+        android:lineHeight="24sp"
+        android:textSize="18sp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/download_photo"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="p" />
+
+    <TextView
+        android:id="@+id/tv_take_picture"
+        android:layout_width="122dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="54dp"
+        android:layout_marginStart="16dp"
+        android:letterSpacing="0.01"
+        android:lineHeight="24sp"
+        android:textSize="16sp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/take_a_picture"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="p" />
+
+    <TextView
+        android:id="@+id/tv_pick_from"
+        android:layout_width="130dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="94dp"
+        android:layout_marginStart="16dp"
+        android:letterSpacing="0.01"
+        android:lineHeight="24sp"
+        android:textSize="16sp"
+        android:fontFamily="@font/roboto"
+        android:text="@string/pick_from_gallery"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="p" />
+
+    <View
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="120dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
