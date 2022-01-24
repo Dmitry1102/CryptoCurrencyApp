@@ -1,11 +1,13 @@
 package com.playsdev.firsttest
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.playsdev.firsttest.databinding.ActivityMainBinding
+import com.playsdev.firsttest.service.InternetService
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +25,11 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         layout?.setupWithNavController(toolbar!!,navController,appBarConfiguration)
         binding?.bottomNav?.setupWithNavController(navController)
+
+
+        startService(Intent(this,InternetService::class.java))
+
+
 
     }
 

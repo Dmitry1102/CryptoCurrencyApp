@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/base">
+
+    <ImageView
+        android:id="@+id/iv_connection"
+        android:layout_width="96dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/no_connect_96"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="265dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/roboto"
+        android:letterSpacing="0.01"
+        android:lineHeight="24sp"
+        android:text="@string/connection"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_connection"
+        tools:targetApi="p" />
+
+    <Button
+        android:id="@+id/btn_again"
+        android:layout_width="140dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="219dp"
+        android:background="@drawable/button_frame"
+        android:fontFamily="@font/roboto"
+        android:letterSpacing="0.01"
+        android:lineHeight="24sp"
+        android:text="@string/try_again"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:ignore="SpeakableTextPresentCheck"
+        tools:targetApi="p" />
+
+    <TextView
+        android:layout_width="140dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_again" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
