@@ -46,7 +46,8 @@ class PhotoDialogFragment : DialogFragment() {
         }
 
         binding?.tvTakePicture?.setOnClickListener {
-            dispatchTakePictureIntent()
+            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
         }
     }
 
@@ -57,37 +58,12 @@ class PhotoDialogFragment : DialogFragment() {
         startActivityForResult(intent, IMAGE_PICK_CODE)
     }
 
-    @SuppressLint("SimpleDateFormat")
-    private fun createImageFile(): File {
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: File =
-            requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
-        return File.createTempFile(
-            "JPEG_${timeStamp}_",
-            ".jpg",
-            storageDir
-        ).apply {
-            currentPhotoPath = absolutePath
-        }
+    private fun makePhoto() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, IMAGE_PICK_CODE)
     }
 
-    @SuppressLint("QueryPermissionsNeeded")
-    private fun dispatchTakePictureIntent() {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-            takePictureIntent.resolveActivity(requireContext().packageManager)?.also {
-                val photoFile: File = createImageFile()
-                photoFile.also {
-                    val photoURI: Uri = FileProvider.getUriForFile(
-                        requireContext(),
-                        "com.playsdev.testapp.fileprovider",
-                        it
-                    )
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-                }
-            }
-        }
-    }
 
 
     @SuppressLint("Range")
@@ -103,15 +79,13 @@ class PhotoDialogFragment : DialogFragment() {
                 bundle.putString(BITMAP_IMG, imgFile)
                 findNavController().navigate(R.id.settings_fragment, bundle)
             }
-            if (requestCode == REQUEST_IMAGE_CAPTURE) {
-                val bitmap = data?.data as Bitmap
+            if (resultCode == Activity.RESULT_OK && requestCode == PhotoDialogFragment.REQUEST_IMAGE_CAPTURE) {
+                val takenImage = data?.extras?.get("data") as Bitmap
                 val stream = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.JPEG,50,stream)
+                takenImage.compress(Bitmap.CompressFormat.PNG, BIT_QUALITY,stream)
                 val byteArray = stream.toByteArray()
-                val bundle = Bundle()
-                bundle.putByteArray(BITMAP_IMG_SECOND,byteArray)
-                settingsFragment.arguments = bundle
-                settingsFragment.childFragmentManager.beginTransaction().add(R.id.settings_fragment,settingsFragment)
+                val intent = Intent(requireContext(),SettingsFragment::class.java)
+                intent.putExtra(BITMAP_IMG_SECOND,byteArray)
             }
         }
     }
@@ -126,6 +100,7 @@ class PhotoDialogFragment : DialogFragment() {
         const val REQUEST_IMAGE_CAPTURE = 0
         const val IMAGE_PICK_CODE = 1011
         const val BITMAP_IMG = "BitmapImage"
+        const val BIT_QUALITY = 100
         const val BITMAP_IMG_SECOND = "BitmapImageSecond"
     }
 }

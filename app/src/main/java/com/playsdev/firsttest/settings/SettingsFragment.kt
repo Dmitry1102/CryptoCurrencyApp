@@ -17,10 +17,14 @@ import com.playsdev.testapp.photo.PhotoDialogFragment.Companion.BITMAP_IMG
 import java.text.SimpleDateFormat
 import java.util.*
 import android.R
+import android.app.Activity
+import android.content.Intent
+import android.graphics.BitmapFactory
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import com.playsdev.firsttest.viewmodel.PersonDataViewModel
+import com.playsdev.testapp.photo.PhotoDialogFragment.Companion.BITMAP_IMG_SECOND
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.w3c.dom.Text
@@ -40,6 +44,7 @@ class SettingsFragment : Fragment() {
     }
     private val viewModel: PersonDataViewModel by inject()
     private var acceptedBitmap: Bitmap? = null
+    private var getBitmap: Bitmap? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,6 +58,7 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         pickDate()
+        takeBitmap()
         takePictureFromGallery()
         binding?.editTextName?.addTextChangedListener(textWatcher)
         binding?.editSurname?.addTextChangedListener(textWatcher)
@@ -80,6 +86,7 @@ class SettingsFragment : Fragment() {
         }
     }
 
+
     private fun pickDate() {
         val builder = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Select Date")
@@ -99,6 +106,11 @@ class SettingsFragment : Fragment() {
 
     }
 
+    private fun takeBitmap(){
+        val byteArray = activity?.intent?.getByteArrayExtra(BITMAP_IMG_SECOND)
+        getBitmap = byteArray?.let { BitmapFactory.decodeByteArray(byteArray,0, it.size) }
+        binding?.ivPhotoFrame?.setImageBitmap(getBitmap)
+    }
 
     private fun convertDate(time: Long): String {
         val date = Date(time)
