@@ -73,7 +73,6 @@ class SettingsFragment : Fragment() {
         }
     }
 
-
     private fun takePictureFromGallery() {
         arguments?.let {
             val image = it.getString(BITMAP_IMG)
