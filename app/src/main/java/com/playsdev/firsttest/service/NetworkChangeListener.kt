@@ -14,7 +14,7 @@ class NetworkChangeListener() : BroadcastReceiver() {
 
     private val checkInternet = CheckInternet()
 
-    @SuppressLint("InflateParams")
+    @SuppressLint("InflateParams", "UnsafeProtectedBroadcastReceiver")
     override fun onReceive(context: Context, intent: Intent) {
         if (!checkInternet.isOnline(context)) {
             val builder = AlertDialog.Builder(context)

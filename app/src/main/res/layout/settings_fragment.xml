@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings_fragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/settings_fragment">
+    android:layout_height="match_parent">
 
     <FrameLayout
         android:id="@+id/header_frame"
@@ -29,13 +29,15 @@
             android:textSize="20sp"
             tools:targetApi="p" />
 
-        <ImageView
-            android:id="@+id/iv_sort"
+        <Button
+            android:id="@+id/btn_save"
             android:layout_width="18dp"
             android:layout_height="18dp"
+            android:enabled="false"
             android:layout_marginStart="364dp"
             android:layout_marginTop="22dp"
-            android:src="@drawable/save_icon_18" />
+            android:background="@drawable/save_icon_18"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     </FrameLayout>
 
@@ -69,8 +71,8 @@
         <ImageView
             android:id="@+id/iv_photo_frame"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
+            android:layout_height="match_parent"
+            tools:ignore="ImageContrastCheck" />
 
 
         <FrameLayout
@@ -92,72 +94,79 @@
     </FrameLayout>
 
 
-
     <EditText
-        android:id="@+id/tv_name"
-        android:layout_width="match_parent"
+        android:id="@+id/edit_text_name"
+        android:layout_width="0dp"
         android:layout_height="54dp"
-        android:layout_marginTop="24dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:hint="@string/name"
-        android:paddingTop="15dp"
-        android:paddingStart="15dp"
-        android:letterSpacing="0.01"
-        android:maxLength="20"
-        android:inputType="text"
-        android:textSize="16sp"
-        android:textColor="@color/gray"
-        android:lineHeight="24sp"
-        android:fontFamily="@font/roboto"
         android:background="@drawable/button_frame"
+        android:fontFamily="@font/roboto"
+        android:hint="@string/name"
+        android:inputType="textCapSentences"
+        android:letterSpacing="0.01"
+        android:lineHeight="24sp"
+        android:maxLength="20"
+        android:paddingStart="15dp"
+        android:paddingTop="15dp"
+        android:textColor="@color/gray"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frame_photo"
         tools:ignore="RtlSymmetry"
         tools:targetApi="p" />
 
     <EditText
-        android:id="@+id/tv_surname"
-        android:layout_width="match_parent"
+        android:id="@+id/edit_surname"
+        android:layout_width="0dp"
         android:layout_height="54dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/button_frame"
         android:fontFamily="@font/roboto"
         android:hint="@string/surname"
+        android:inputType="textCapSentences"
         android:letterSpacing="0.01"
         android:lineHeight="24sp"
-        android:paddingStart="15dp"
         android:maxLength="20"
+        android:paddingStart="15dp"
         android:paddingTop="15dp"
         android:textColor="@color/gray"
         android:textSize="16sp"
-        android:inputType="text"
-        android:layout_marginTop="18dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_text_name"
+        app:layout_constraintVertical_bias="0.0"
         tools:ignore="RtlSymmetry"
         tools:targetApi="p" />
 
     <EditText
-        android:id="@+id/tv_data"
-        android:layout_width="match_parent"
+        android:id="@+id/edit_text_date"
+        android:layout_width="0dp"
         android:layout_height="54dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/button_frame"
+        android:focusable="false"
         android:fontFamily="@font/roboto"
         android:hint="@string/date_of_birth"
         android:letterSpacing="0.01"
         android:lineHeight="24sp"
-        android:paddingStart="15dp"
-        android:enabled="false"
-        android:paddingTop="15dp"
         android:maxLength="20"
+        android:paddingStart="15dp"
+        android:paddingTop="15dp"
         android:textColor="@color/gray"
         android:textSize="16sp"
-        android:focusable="false"
-        android:layout_marginTop="18dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/tv_surname"
-        tools:ignore="RtlSymmetry"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_surname"
+        tools:ignore="RtlSymmetry,TextContrastCheck"
         tools:targetApi="p" />
 
 
