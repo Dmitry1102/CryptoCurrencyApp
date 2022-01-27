@@ -1,9 +1,6 @@
 package com.playsdev.firsttest.persondatabase
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -11,9 +8,7 @@ interface PersonDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addPerson(personEntity: PersonEntity)
 
-    @Query("SELECT name FROM person_table")
-    suspend fun loadName(): String
-
-
+    @Query("SELECT * FROM person_table LIMIT 1")
+    fun setPerson():Flow<PersonEntity>
 
 }

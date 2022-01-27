@@ -21,8 +21,12 @@ class MainApplication: Application(), KoinComponent {
         super.onCreate()
         startKoin {
             androidContext(this@MainApplication)
-            modules(listOf(internet,storageModule,viewModels))
+            modules(listOf(repository,viewModels,internet,storageModule))
         }
+    }
+
+    private val repository = module {
+        factory { PersonRepository(get()) }
     }
 
     private val viewModels = module {
@@ -39,9 +43,7 @@ class MainApplication: Application(), KoinComponent {
         factory { get<PersonDataBase>().personDao() }
     }
 
-    private val repository = module {
-        factory { PersonRepository(get()) }
-    }
+
 
 
 

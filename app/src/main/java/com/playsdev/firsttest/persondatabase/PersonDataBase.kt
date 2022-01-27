@@ -1,11 +1,11 @@
 package com.playsdev.firsttest.persondatabase
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
+import com.playsdev.firsttest.settings.Converters
 
-@Database(entities = [PersonEntity::class], version = 1)
+@Database(entities = [PersonEntity::class], version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class PersonDataBase: RoomDatabase() {
     abstract fun personDao():PersonDao
 }
