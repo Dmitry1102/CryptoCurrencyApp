@@ -1,20 +1,23 @@
 package com.playsdev.firsttest.persondatabase
 
 import android.content.Context
-import androidx.room.*
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.playsdev.firsttest.settings.Converters
 
-@Database(entities = [PersonEntity::class], version = 1, exportSchema = false)
+@Database(entities = [Person::class], version = 1, exportSchema = false )
 @TypeConverters(Converters::class)
 abstract class PersonDataBase: RoomDatabase() {
     abstract fun personDao():PersonDao
 }
 
-object DatabaseConstructor {
+object PersonDatabaseConstructor {
     fun create(context: Context): PersonDataBase =
         Room.databaseBuilder(
             context,
             PersonDataBase::class.java,
-            "person_database"
-        ).build()
+            "user_table"
+        ).fallbackToDestructiveMigration().build()
 }

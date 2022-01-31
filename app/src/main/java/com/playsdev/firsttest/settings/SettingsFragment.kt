@@ -8,22 +8,25 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.playsdev.firsttest.databinding.SettingsFragmentBinding
-import com.playsdev.firsttest.persondatabase.PersonEntity
-import com.playsdev.firsttest.repository.Person
+import com.playsdev.firsttest.persondatabase.Person
 import com.playsdev.firsttest.viewmodel.PersonDataViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -41,9 +44,8 @@ class SettingsFragment : Fragment() {
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             val name = binding?.editTextName?.text?.trim()?.toString()!!
             val surname = binding?.editSurname?.text?.trim()?.toString()!!
-            binding?.btnSave?.isEnabled = surname.isNotEmpty() && name.isNotEmpty()
+            binding?.btnSave?.isEnabled = inputCheck(name, surname)
         }
-
         override fun afterTextChanged(p0: Editable?) {}
     }
     private val viewModel by inject<PersonDataViewModel>()
@@ -65,15 +67,24 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.setPerson.onEach {
-            personCheck = it
-            fillFields(personCheck!!)
-            binding?.btnSave?.isEnabled = false
-        }.launchIn(lifecycleScope)
+        if (viewModel.setPerson() != null) {
+            viewModel.setPerson().onEach {
+                personCheck = it.last()
+                fillFields(personCheck!!)
+                binding?.editTextName?.isEnabled = false
+                binding?.editTextDate?.isEnabled = false
+                binding?.editSurname?.isEnabled = false
+                binding?.btnSave?.isEnabled = false
+            }.launchIn(lifecycleScope)
+        }else{
+            pickDate()
+            binding?.editTextName?.addTextChangedListener(textWatcher)
+            binding?.editSurname?.addTextChangedListener(textWatcher)
+            binding?.editTextDate?.addTextChangedListener(textWatcher)
+        }
 
-        pickDate()
-        binding?.editTextName?.addTextChangedListener(textWatcher)
-        binding?.editSurname?.addTextChangedListener(textWatcher)
+
+
 
         val items = arrayOf(FIRST_OPTION, SECOND_OPTION)
         binding?.ivPhoto?.setOnClickListener {
@@ -115,15 +126,20 @@ class SettingsFragment : Fragment() {
             }
 
         binding?.btnSave?.setOnClickListener {
-            lifecycleScope.launch(Dispatchers.IO) {
-                val person = PersonEntity(
-                    binding?.editTextName?.text.toString(),
-                    binding?.editSurname?.text.toString(),
-                    binding?.editTextDate?.text.toString(),
-                    bitmap!!
-                )
-                viewModel.addPersonToDatabase(person)
-            }
+            addPersonToDataBase()
+        }
+    }
+
+    private fun addPersonToDataBase() {
+        val name = binding?.editTextName?.text.toString()
+        val surname = binding?.editSurname?.text.toString()
+        val date = binding?.editTextDate?.text.toString()
+        Log.e("TNT", "$bitmap")
+        val person = Person(name = name,surname = surname, date = date, image = bitmap!!)
+
+        if (inputCheck(name, surname)) {
+            viewModel.addPerson(person)
+            Toast.makeText(context, PERSON_ADD, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -149,7 +165,6 @@ class SettingsFragment : Fragment() {
         }
         photoSelectResultLauncher?.launch(intent)
     }
-
 
     private fun takePhoto() {
         val storage = requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
@@ -178,13 +193,18 @@ class SettingsFragment : Fragment() {
     }
 
     private fun fillFields(person: Person) {
-        binding?.ivPhotoFrame?.setImageBitmap(person.image)
         binding?.editTextName?.setText(person.name)
         binding?.editSurname?.setText(person.surname)
         binding?.editTextDate?.setText(person.date)
+        binding?.ivPhotoFrame?.setImageBitmap(person.image)
+    }
+
+    private fun inputCheck(name: String, surname: String): Boolean {
+        return surname.isNotEmpty() && name.isNotEmpty()
     }
 
     companion object {
+        private const val PERSON_ADD = "Person successfully added!"
         private const val DIALOG_HEADER = "Download photo"
         private const val FIRST_OPTION = "Take a picture"
         private const val SECOND_OPTION = "Pick from gallery"

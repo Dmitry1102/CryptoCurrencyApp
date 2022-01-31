@@ -1,8 +1,8 @@
 package com.playsdev.firsttest
 
 import android.app.Application
-import com.playsdev.firsttest.persondatabase.DatabaseConstructor
 import com.playsdev.firsttest.persondatabase.PersonDataBase
+import com.playsdev.firsttest.persondatabase.PersonDatabaseConstructor
 import com.playsdev.firsttest.repository.PersonRepository
 import com.playsdev.firsttest.service.CheckInternet
 import com.playsdev.firsttest.service.NetworkChangeListener
@@ -39,7 +39,7 @@ class MainApplication: Application(), KoinComponent {
     }
 
     private val storageModule = module {
-        single { DatabaseConstructor.create(get()) }
+        single { PersonDatabaseConstructor.create(get()) }
         factory { get<PersonDataBase>().personDao() }
     }
 

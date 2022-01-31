@@ -1,28 +1,21 @@
 package com.playsdev.firsttest.repository
 
-
+import com.playsdev.firsttest.persondatabase.Person
 import com.playsdev.firsttest.persondatabase.PersonDao
-import com.playsdev.firsttest.persondatabase.PersonEntity
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 
 class PersonRepository(
-    private val personDao: PersonDao
+     private val personDao: PersonDao
 ) {
+     fun setPerson(): Flow<List<Person>> = personDao.setPerson()
 
-    suspend fun addPerson(person: PersonEntity) {
-        personDao.addPerson(person)
-    }
+     suspend fun addPersonToDataBase(person: Person){
+          personDao.insertPerson(person)
+     }
 
-    fun setPerson(): Flow<Person> = personDao.setPerson().map { personEntity ->
-        Person(
-            name = personEntity.name,
-            surname = personEntity.surname,
-            date = personEntity.date,
-            image = personEntity.image
-        )
-    }
-
+     suspend fun updatePerson(person: Person){
+          personDao.updatePerson(person)
+     }
 }
 

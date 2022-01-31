@@ -5,10 +5,13 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PersonDao {
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addPerson(personEntity: PersonEntity)
+    suspend fun insertPerson(person: Person)
 
-    @Query("SELECT * FROM person_table LIMIT 1")
-    fun setPerson():Flow<PersonEntity>
+    @Query("SELECT * FROM user_table ORDER BY name ASC")
+    fun setPerson(): Flow<List<Person>>
 
+    @Update
+    suspend fun updatePerson(person: Person)
 }
