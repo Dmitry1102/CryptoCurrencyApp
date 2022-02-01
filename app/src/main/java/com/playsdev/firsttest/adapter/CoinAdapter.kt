@@ -1,13 +1,22 @@
 package com.playsdev.firsttest.adapter
 
+import android.util.Base64.decode
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import com.playsdev.firsttest.cloud.CoinResponce
+import com.playsdev.firsttest.cloud.ListResponce
 import com.playsdev.firsttest.databinding.ItemRecyleBinding
+import java.lang.Byte.decode
+import java.util.*
+import kotlin.collections.ArrayList
 
-class CoinAdapter() : ListAdapter<CoinData, CoinScheduleViewHolder>(DifUtilItemCallBack()) {
+class CoinAdapter() : ListAdapter<CoinResponce, CoinScheduleViewHolder>(DifUtilItemCallBack()) {
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinScheduleViewHolder {
         return CoinScheduleViewHolder(
             ItemRecyleBinding.inflate(
@@ -21,25 +30,26 @@ class CoinAdapter() : ListAdapter<CoinData, CoinScheduleViewHolder>(DifUtilItemC
     }
 }
 
-class DifUtilItemCallBack : DiffUtil.ItemCallback<CoinData>() {
-    override fun areItemsTheSame(oldItem: CoinData, newItem: CoinData): Boolean {
+class DifUtilItemCallBack : DiffUtil.ItemCallback<CoinResponce>() {
+    override fun areItemsTheSame(oldItem: CoinResponce, newItem: CoinResponce): Boolean {
         return oldItem == newItem
     }
 
-    override fun areContentsTheSame(oldItem: CoinData, newItem: CoinData): Boolean {
-        return oldItem.nameItem == newItem.nameItem && oldItem.nameFullItem == newItem.nameFullItem
-                && oldItem.cost == newItem.cost && oldItem.image == newItem.image
+    override fun areContentsTheSame(oldItem: CoinResponce, newItem: CoinResponce): Boolean {
+        return oldItem.id == newItem.id && oldItem.symbol == newItem.symbol
+                && oldItem.current_price == newItem.current_price && oldItem.image == newItem.image
     }
+
 }
 
 class CoinScheduleViewHolder(
     private val binding: ItemRecyleBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: CoinData){
-        binding.tvName.text = item.nameItem
-        binding.tvFullName.text = item.nameFullItem
-        binding.tvCost.text = item.cost
-        binding.ivCoin.setImageResource(item.image)
+    fun bind(item: CoinResponce){
+        binding.tvName.text = item.id
+        binding.tvFullName.text = item.symbol
+        binding.tvCost.text = item.current_price.toString()
+        binding.ivCoin.load(item.image)
     }
 }

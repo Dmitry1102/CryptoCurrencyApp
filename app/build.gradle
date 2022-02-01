@@ -49,8 +49,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     //navigation
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.0'
 
     //koin
     implementation 'org.koin:koin-android-ext:2.2.2'
@@ -58,10 +58,26 @@ dependencies {
 
     //room
     implementation "androidx.room:room-ktx:2.4.1"
-    implementation 'androidx.test:core-ktx:1.4.0'//для корутин в Room
+    implementation 'androidx.test:core-ktx:1.4.0'
     kapt "android.arch.persistence.room:compiler:1.1.1"
-    kapt "androidx.room:room-compiler:2.4.1" //Room основная либа
+    kapt "androidx.room:room-compiler:2.4.1"
     implementation "androidx.room:room-runtime:2.4.1"
+
+    //retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
+
+    //gson
+    implementation "com.google.code.gson:gson:2.8.7"
+
+    //okhttp3
+    implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.2")
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2'
+
+    //coil
+    implementation"io.coil-kt:coil:1.4.0"
+
 
 
 }
