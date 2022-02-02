@@ -2,7 +2,7 @@ package com.playsdev.firsttest.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.playsdev.firsttest.cloud.ListResponce
+import com.playsdev.firsttest.cloud.CoinResponce
 import com.playsdev.firsttest.repository.CoinRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,16 +14,17 @@ class CoinViewModel(
     private val coinRepository: CoinRepository
 ) : ViewModel() {
 
-    private val _stateFlow = MutableStateFlow<ListResponce>(ListResponce(arrayListOf()))
-    val stateFlow: StateFlow<ListResponce> = _stateFlow.asStateFlow()
+
+    private val _stateFlow = MutableStateFlow(listOf(CoinResponce(0L,"","","")))
 
     fun getInfo() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
             val responce = coinRepository.getCoinInfo()
             _stateFlow.value = responce
         }
-
     }
+
+   val stateFlow: StateFlow<List<CoinResponce>> = _stateFlow.asStateFlow()
 
 
 }

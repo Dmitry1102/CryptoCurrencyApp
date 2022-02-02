@@ -1,6 +1,5 @@
 package com.playsdev.firsttest.adapter
 
-import android.util.Base64.decode
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,14 +7,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.playsdev.firsttest.cloud.CoinResponce
-import com.playsdev.firsttest.cloud.ListResponce
 import com.playsdev.firsttest.databinding.ItemRecyleBinding
-import java.lang.Byte.decode
-import java.util.*
-import kotlin.collections.ArrayList
 
 class CoinAdapter() : ListAdapter<CoinResponce, CoinScheduleViewHolder>(DifUtilItemCallBack()) {
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinScheduleViewHolder {
         return CoinScheduleViewHolder(
@@ -39,7 +33,6 @@ class DifUtilItemCallBack : DiffUtil.ItemCallback<CoinResponce>() {
         return oldItem.id == newItem.id && oldItem.symbol == newItem.symbol
                 && oldItem.current_price == newItem.current_price && oldItem.image == newItem.image
     }
-
 }
 
 class CoinScheduleViewHolder(
@@ -51,5 +44,6 @@ class CoinScheduleViewHolder(
         binding.tvFullName.text = item.symbol
         binding.tvCost.text = item.current_price.toString()
         binding.ivCoin.load(item.image)
+
     }
 }

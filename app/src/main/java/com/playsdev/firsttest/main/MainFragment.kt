@@ -1,6 +1,7 @@
 package com.playsdev.testapp.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,14 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.playsdev.firsttest.adapter.CoinAdapter
 import com.playsdev.firsttest.databinding.MainFragmentBinding
 import com.playsdev.firsttest.viewmodel.CoinViewModel
-import com.playsdev.firsttest.viewmodel.PersonDataViewModel
 import com.playsdev.testapp.sort.SortDialogFragment
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.observeOn
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainFragment : Fragment() {
 
@@ -42,17 +39,14 @@ class MainFragment : Fragment() {
             dialog.show(childFragmentManager, TAG)
         }
 
-        binding?.rvCurrency?.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
+        binding?.rvCurrency?.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding?.rvCurrency?.adapter = adapter
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            viewModel.stateFlow.collect {
-                adapter.submitList(it.items)
-            }
-        }
-
-
-
+//        viewModel.getInfo()
+//        lifecycleScope.launch {
+//            viewModel.stateFlow.collect{adapter.submitList(it)}
+//        }
 
     }
 
