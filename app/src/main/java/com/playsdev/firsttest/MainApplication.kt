@@ -2,12 +2,16 @@ package com.playsdev.firsttest
 
 import android.app.Application
 import com.playsdev.firsttest.cloud.CoinApi
+import com.playsdev.firsttest.coindatabase.CoinDataBase
+import com.playsdev.firsttest.coindatabase.CoinDatabaseConstructor
 import com.playsdev.firsttest.persondatabase.PersonDataBase
 import com.playsdev.firsttest.persondatabase.PersonDatabaseConstructor
+import com.playsdev.firsttest.repository.CoinDataBaseRepository
 import com.playsdev.firsttest.repository.CoinRepository
 import com.playsdev.firsttest.repository.PersonRepository
 import com.playsdev.firsttest.service.CheckInternet
 import com.playsdev.firsttest.service.NetworkChangeListener
+import com.playsdev.firsttest.viewmodel.CoinDataBaseViewModel
 import com.playsdev.firsttest.viewmodel.CoinViewModel
 import com.playsdev.firsttest.viewmodel.PersonDataViewModel
 import org.koin.android.ext.koin.androidContext
@@ -31,11 +35,13 @@ class MainApplication: Application(), KoinComponent {
     private val repository = module {
         factory { PersonRepository(get()) }
         factory { CoinRepository(get()) }
+        factory { CoinDataBaseRepository(get()) }
     }
 
     private val viewModels = module {
         viewModel { PersonDataViewModel(get()) }
         viewModel { CoinViewModel(get()) }
+        viewModel { CoinDataBaseViewModel(get()) }
     }
 
     private val cloudModule = module {
@@ -50,5 +56,7 @@ class MainApplication: Application(), KoinComponent {
     private val storageModule = module {
         single { PersonDatabaseConstructor.create(get()) }
         factory { get<PersonDataBase>().personDao() }
+        single { CoinDatabaseConstructor.create(get()) }
+        factory { get<CoinDataBase>().coinDao() }
     }
 }

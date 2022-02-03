@@ -8,9 +8,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.playsdev.firsttest.adapter.CoinAdapter
 import com.playsdev.firsttest.cloud.CoinResponce
+import com.playsdev.firsttest.coindatabase.Coin
 import com.playsdev.firsttest.databinding.MainFragmentBinding
+import com.playsdev.firsttest.viewmodel.CoinDataBaseViewModel
 import com.playsdev.firsttest.viewmodel.CoinViewModel
 import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
@@ -21,6 +24,8 @@ class MainFragment : Fragment() {
     private val viewModel by inject<CoinViewModel>()
     private var listCoins: MutableList<CoinResponce>? = null
     private val coinAdapter = CoinAdapter()
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,18 +44,23 @@ class MainFragment : Fragment() {
             makeDialogFragment()
         }
 
+
         binding?.rvCurrency?.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding?.rvCurrency?.adapter = coinAdapter
 
-        viewModel.getInfo()
-        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenResumed {
-            viewModel.stateFlow.collect {
-                listCoins = it.toMutableList()
-                coinAdapter.submitList(listCoins)
+       binding?.swipeLayout?.setOnRefreshListener {
+           viewModel.getInfo()
+           viewLifecycleOwner.lifecycle.coroutineScope.launchWhenResumed {
+               viewModel.stateFlow.collect {
+                   listCoins = it.toMutableList()
+                   coinAdapter.submitList(listCoins)
 
-            }
-        }
+               }
+           }
+       }
+
+
     }
 
     override fun onDestroy() {
