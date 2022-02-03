@@ -19,6 +19,7 @@ import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -67,24 +68,27 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (viewModel.setPerson() != null) {
-            viewModel.setPerson().onEach {
-                personCheck = it.last()
-                fillFields(personCheck!!)
-                binding?.editTextName?.isEnabled = false
-                binding?.editTextDate?.isEnabled = false
-                binding?.editSurname?.isEnabled = false
-                binding?.btnSave?.isEnabled = false
-            }.launchIn(lifecycleScope)
-        }else{
-            pickDate()
-            binding?.editTextName?.addTextChangedListener(textWatcher)
-            binding?.editSurname?.addTextChangedListener(textWatcher)
-            binding?.editTextDate?.addTextChangedListener(textWatcher)
-        }
+                pickDate()
+                binding?.editTextName?.addTextChangedListener(textWatcher)
+                binding?.editSurname?.addTextChangedListener(textWatcher)
+                binding?.editTextDate?.addTextChangedListener(textWatcher)
 
+                binding?.btnSave?.setOnClickListener {
+                    addToDataBase()
+                }
 
-
+                viewLifecycleOwner.lifecycle.coroutineScope.launchWhenCreated {
+                    viewModel.setPerson.collectLatest {
+                        personCheck = it
+                        Log.d("FFF","$it")
+                        fillFields(personCheck!!)
+                        binding?.editTextName?.isEnabled = false
+                        binding?.editTextDate?.isEnabled = false
+                        binding?.editSurname?.isEnabled = false
+                        binding?.btnSave?.isEnabled = false
+                        binding?.ivPhoto?.isEnabled = false
+                    }
+                }
 
         val items = arrayOf(FIRST_OPTION, SECOND_OPTION)
         binding?.ivPhoto?.setOnClickListener {
@@ -111,6 +115,7 @@ class SettingsFragment : Fragment() {
                     binding?.ivPhotoFrame?.setImageBitmap(bitmap)
                 }
             }
+
         takePhotoResultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 if (it.resultCode == Activity.RESULT_OK) {
@@ -125,21 +130,23 @@ class SettingsFragment : Fragment() {
                 }
             }
 
-        binding?.btnSave?.setOnClickListener {
-            addPersonToDataBase()
-        }
+
     }
 
-    private fun addPersonToDataBase() {
+    private fun addToDataBase() {
         val name = binding?.editTextName?.text.toString()
         val surname = binding?.editSurname?.text.toString()
         val date = binding?.editTextDate?.text.toString()
-        Log.e("TNT", "$bitmap")
-        val person = Person(name = name,surname = surname, date = date, image = bitmap!!)
+        val person = Person(name = name, surname = surname, date = date, image = bitmap!!)
+        Log.e("AAA","$person")
 
-        if (inputCheck(name, surname)) {
-            viewModel.addPerson(person)
-            Toast.makeText(context, PERSON_ADD, Toast.LENGTH_LONG).show()
+        try {
+            if (inputCheck(name, surname)) {
+                viewModel.addPerson(person)
+                Toast.makeText(context, PERSON_ADD, Toast.LENGTH_LONG).show()
+            }
+        }catch (e: Exception){
+            Toast.makeText(context,"exception found $e",Toast.LENGTH_LONG).show()
         }
     }
 
