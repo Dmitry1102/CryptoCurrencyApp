@@ -40,10 +40,11 @@ class MainFragment : Fragment() {
         viewModel.getInfo()
 
         viewLifecycleOwner.lifecycle.coroutineScope.launchWhenResumed {
-            viewModel.stateFlow.collect { listCoins = it.toMutableList() }
+            viewModel.stateFlow.collect { listCoins = it.toMutableList()
+                addToDataBase(listCoins!!)}
         }
 
-        addToDataBase(listCoins!!)
+
         binding?.rvCurrency?.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding?.rvCurrency?.adapter = coinAdapter
@@ -57,6 +58,8 @@ class MainFragment : Fragment() {
                 }
             }
         }
+
+
     }
 
     override fun onDestroy() {

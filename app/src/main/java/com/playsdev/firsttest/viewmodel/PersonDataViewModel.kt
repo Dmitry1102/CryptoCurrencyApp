@@ -21,9 +21,5 @@ class PersonDataViewModel(
         }
     }
 
-    fun updatePerson(person: Person){
-        viewModelScope.launch(Dispatchers.IO) {
-            personRepository.updatePerson(person)
-        }
-    }
+
 }

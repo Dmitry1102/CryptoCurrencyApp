@@ -12,6 +12,4 @@ interface PersonDao {
     @Query("SELECT * FROM user_table ORDER BY name ASC")
     fun setPerson(): Flow<List<Person>>
 
-    @Update
-    suspend fun updatePerson(person: Person)
 }

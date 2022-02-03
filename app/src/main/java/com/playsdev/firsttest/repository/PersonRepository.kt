@@ -14,8 +14,6 @@ class PersonRepository(
           personDao.insertPerson(person)
      }
 
-     suspend fun updatePerson(person: Person){
-          personDao.updatePerson(person)
-     }
+
 }
 
