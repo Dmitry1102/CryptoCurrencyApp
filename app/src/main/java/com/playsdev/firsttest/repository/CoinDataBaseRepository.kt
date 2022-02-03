@@ -8,7 +8,7 @@ class CoinDataBaseRepository(
     private val coinDao:CoinDao
 ) {
 
-    suspend fun addToDataBase(coin: Coin){
+    suspend fun addToDataBase(coin: List<Coin>){
         coinDao.addToDataBase(coin)
     }
 

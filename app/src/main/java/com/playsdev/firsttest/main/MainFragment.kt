@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.playsdev.firsttest.adapter.CoinAdapter
 import com.playsdev.firsttest.cloud.CoinResponce
 import com.playsdev.firsttest.coindatabase.Coin
@@ -24,8 +23,7 @@ class MainFragment : Fragment() {
     private val viewModel by inject<CoinViewModel>()
     private var listCoins: MutableList<CoinResponce>? = null
     private val coinAdapter = CoinAdapter()
-
-
+    private val coinViewModel by inject<CoinDataBaseViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,29 +36,27 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding?.ivSort?.setOnClickListener { makeDialogFragment() }
+        viewModel.getInfo()
 
-
-        binding?.ivSort?.setOnClickListener {
-            makeDialogFragment()
+        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenResumed {
+            viewModel.stateFlow.collect { listCoins = it.toMutableList() }
         }
 
-
+        addToDataBase(listCoins!!)
         binding?.rvCurrency?.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding?.rvCurrency?.adapter = coinAdapter
 
-       binding?.swipeLayout?.setOnRefreshListener {
-           viewModel.getInfo()
-           viewLifecycleOwner.lifecycle.coroutineScope.launchWhenResumed {
-               viewModel.stateFlow.collect {
-                   listCoins = it.toMutableList()
-                   coinAdapter.submitList(listCoins)
 
-               }
-           }
-       }
-
-
+        binding?.swipeLayout?.setOnRefreshListener {
+            viewLifecycleOwner.lifecycle.coroutineScope.launchWhenResumed {
+                viewModel.stateFlow.collect {
+                    listCoins = it.toMutableList()
+                    coinAdapter.submitList(listCoins)
+                }
+            }
+        }
     }
 
     override fun onDestroy() {
@@ -68,26 +64,32 @@ class MainFragment : Fragment() {
         binding = null
     }
 
-    private fun makeDialogFragment(){
+    private fun makeDialogFragment() {
         val alertDialog = AlertDialog.Builder(context)
         alertDialog.setTitle(SORT_HEADER)
         val items = arrayOf(FIRST_OPTION, SECOND_OPTION)
         val checkedItem = 1
-        alertDialog.setSingleChoiceItems(items,checkedItem) { _, which ->
+        alertDialog.setSingleChoiceItems(items, checkedItem) { _, which ->
             when (which) {
                 0 -> sortByPrice(listCoins!!)
                 1 -> sortAlphabetically(listCoins!!)
             }
         }
-        alertDialog.setNegativeButton(CANCEL) { dialog, _ ->
-            dialog.cancel()
-        }
-        alertDialog.setNegativeButton(OK) { dialog, _ ->
-            dialog.cancel()
-        }
+        alertDialog.setNegativeButton(CANCEL) { dialog, _ -> dialog.cancel() }
+        alertDialog.setPositiveButton(OK) { dialog, _ -> dialog.cancel() }
         alertDialog.show()
+    }
 
-
+    private fun addToDataBase(list: MutableList<CoinResponce>) {
+        val dataList: List<Coin> = list.toList().map {
+            Coin(
+                current_price = it.current_price,
+                id = it.id,
+                image = it.image,
+                symbol = it.symbol
+            )
+        }
+        coinViewModel.addToDataBase(dataList)
     }
 
     private fun sortAlphabetically(list: MutableList<CoinResponce>) {
@@ -103,9 +105,6 @@ class MainFragment : Fragment() {
         private const val OK = "Ok"
         private const val FIRST_OPTION = "By price"
         private const val SECOND_OPTION = "Alphabetically"
-        private const val TAG = "SORT_FRAGMENT"
-        private const val SORT_HEADER = "SORT"
+        private const val SORT_HEADER = "Sort"
     }
-
-
 }

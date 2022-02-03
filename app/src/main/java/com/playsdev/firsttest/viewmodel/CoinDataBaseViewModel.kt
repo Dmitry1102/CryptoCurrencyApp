@@ -11,7 +11,7 @@ class CoinDataBaseViewModel(
     private val coinDataBaseRepository: CoinDataBaseRepository
 ): ViewModel() {
 
-    fun addToDatabase(coin: Coin){
+    fun addToDataBase(coin: List<Coin>){
         viewModelScope.launch(Dispatchers.IO) {
             coinDataBaseRepository.addToDataBase(coin)
         }

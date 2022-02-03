@@ -9,5 +9,5 @@ import com.playsdev.firsttest.cloud.CoinResponce
 interface CoinDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addToDataBase(coin: Coin)
+    suspend fun addToDataBase(coin: List<Coin>)
 }
