@@ -45,6 +45,8 @@ class MainFragment : Fragment() {
         }
 
 
+
+
         binding?.rvCurrency?.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding?.rvCurrency?.adapter = coinAdapter

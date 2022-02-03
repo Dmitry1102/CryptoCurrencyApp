@@ -19,6 +19,6 @@ class CoinDataBaseViewModel(
         }
     }
 
-    fun getCoiList(): Flow<List<Coin>> = coinDataBaseRepository.getCoinList()
+    fun getCoinList(): Flow<List<Coin>> = coinDataBaseRepository.getCoinList()
 
 }

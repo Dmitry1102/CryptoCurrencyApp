@@ -27,6 +27,7 @@ import com.playsdev.firsttest.databinding.SettingsFragmentBinding
 import com.playsdev.firsttest.persondatabase.Person
 import com.playsdev.firsttest.viewmodel.PersonDataViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -47,6 +48,7 @@ class SettingsFragment : Fragment() {
             val surname = binding?.editSurname?.text?.trim()?.toString()!!
             binding?.btnSave?.isEnabled = inputCheck(name, surname)
         }
+
         override fun afterTextChanged(p0: Editable?) {}
     }
     private val viewModel by inject<PersonDataViewModel>()
@@ -67,28 +69,16 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        pickDate()
+        binding?.editTextName?.addTextChangedListener(textWatcher)
+        binding?.editSurname?.addTextChangedListener(textWatcher)
+        binding?.editTextDate?.addTextChangedListener(textWatcher)
 
-                pickDate()
-                binding?.editTextName?.addTextChangedListener(textWatcher)
-                binding?.editSurname?.addTextChangedListener(textWatcher)
-                binding?.editTextDate?.addTextChangedListener(textWatcher)
+        binding?.btnSave?.setOnClickListener {
+            addToPersonDataBase()
+        }
 
-                binding?.btnSave?.setOnClickListener {
-                    addToDataBase()
-                }
-
-                viewLifecycleOwner.lifecycle.coroutineScope.launchWhenCreated {
-                    viewModel.setPerson.collectLatest {
-                        personCheck = it
-                        Log.d("FFF","$it")
-                        fillFields(personCheck!!)
-                        binding?.editTextName?.isEnabled = false
-                        binding?.editTextDate?.isEnabled = false
-                        binding?.editSurname?.isEnabled = false
-                        binding?.btnSave?.isEnabled = false
-                        binding?.ivPhoto?.isEnabled = false
-                    }
-                }
+       // setFromDataBase()
 
         val items = arrayOf(FIRST_OPTION, SECOND_OPTION)
         binding?.ivPhoto?.setOnClickListener {
@@ -103,7 +93,8 @@ class SettingsFragment : Fragment() {
         }
 
         photoSelectResultLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            {
                 if (it.resultCode == Activity.RESULT_OK) {
                     val photoUri = it.data?.data
                     bitmap = Bitmap.createScaledBitmap(
@@ -117,7 +108,8 @@ class SettingsFragment : Fragment() {
             }
 
         takePhotoResultLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            {
                 if (it.resultCode == Activity.RESULT_OK) {
                     val uri = photoFile?.toUri()
                     bitmap = Bitmap.createScaledBitmap(
@@ -133,20 +125,20 @@ class SettingsFragment : Fragment() {
 
     }
 
-    private fun addToDataBase() {
+    private fun addToPersonDataBase() {
         val name = binding?.editTextName?.text.toString()
         val surname = binding?.editSurname?.text.toString()
         val date = binding?.editTextDate?.text.toString()
         val person = Person(name = name, surname = surname, date = date, image = bitmap!!)
-        Log.e("AAA","$person")
+        Log.e("AAA", "$person")
 
         try {
             if (inputCheck(name, surname)) {
                 viewModel.addPerson(person)
                 Toast.makeText(context, PERSON_ADD, Toast.LENGTH_LONG).show()
             }
-        }catch (e: Exception){
-            Toast.makeText(context,"exception found $e",Toast.LENGTH_LONG).show()
+        } catch (e: Exception) {
+            Toast.makeText(context, "exception found $e", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -160,6 +152,21 @@ class SettingsFragment : Fragment() {
             materialDatePicker.show(childFragmentManager, OPEN_TAG)
             materialDatePicker.addOnPositiveButtonClickListener { selection ->
                 binding?.editTextDate?.setText(convertDate(selection))
+            }
+        }
+    }
+
+    private fun setFromDataBase() {
+        viewLifecycleOwner.lifecycle.coroutineScope.launch{
+            viewModel.setPerson.collect {
+                personCheck = it
+                Log.d("FFF", "$it")
+                fillFields(personCheck!!)
+                binding?.editTextName?.isEnabled = false
+                binding?.editTextDate?.isEnabled = false
+                binding?.editSurname?.isEnabled = false
+                binding?.btnSave?.isEnabled = false
+                binding?.ivPhoto?.isEnabled = false
             }
         }
     }
