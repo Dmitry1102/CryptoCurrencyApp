@@ -1,25 +1,26 @@
 package com.playsdev.testapp.main
 
+import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.playsdev.firsttest.adapter.CoinAdapter
+import com.playsdev.firsttest.cloud.CoinResponce
 import com.playsdev.firsttest.databinding.MainFragmentBinding
 import com.playsdev.firsttest.viewmodel.CoinViewModel
-import com.playsdev.testapp.sort.SortDialogFragment
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class MainFragment : Fragment() {
 
     private var binding: MainFragmentBinding? = null
     private val viewModel by inject<CoinViewModel>()
+    private var listCoins: MutableList<CoinResponce>? = null
+    private val coinAdapter = CoinAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,22 +33,24 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = CoinAdapter()
+
 
         binding?.ivSort?.setOnClickListener {
-            val dialog = SortDialogFragment()
-            dialog.show(childFragmentManager, TAG)
+            makeDialogFragment()
         }
 
         binding?.rvCurrency?.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        binding?.rvCurrency?.adapter = adapter
+        binding?.rvCurrency?.adapter = coinAdapter
 
-//        viewModel.getInfo()
-//        lifecycleScope.launch {
-//            viewModel.stateFlow.collect{adapter.submitList(it)}
-//        }
+        viewModel.getInfo()
+        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenResumed {
+            viewModel.stateFlow.collect {
+                listCoins = it.toMutableList()
+                coinAdapter.submitList(listCoins)
 
+            }
+        }
     }
 
     override fun onDestroy() {
@@ -55,8 +58,44 @@ class MainFragment : Fragment() {
         binding = null
     }
 
-    companion object {
-        private const val TAG = "SORT_FRAGMENT"
+    private fun makeDialogFragment(){
+        val alertDialog = AlertDialog.Builder(context)
+        alertDialog.setTitle(SORT_HEADER)
+        val items = arrayOf(FIRST_OPTION, SECOND_OPTION)
+        val checkedItem = 1
+        alertDialog.setSingleChoiceItems(items,checkedItem) { _, which ->
+            when (which) {
+                0 -> sortByPrice(listCoins!!)
+                1 -> sortAlphabetically(listCoins!!)
+            }
+        }
+        alertDialog.setNegativeButton(CANCEL) { dialog, _ ->
+            dialog.cancel()
+        }
+        alertDialog.setNegativeButton(OK) { dialog, _ ->
+            dialog.cancel()
+        }
+        alertDialog.show()
+
+
     }
+
+    private fun sortAlphabetically(list: MutableList<CoinResponce>) {
+        coinAdapter.submitList(list.sortedBy { it.id })
+    }
+
+    private fun sortByPrice(list: MutableList<CoinResponce>) {
+        coinAdapter.submitList(list.sortedBy { it.current_price })
+    }
+
+    companion object {
+        private const val CANCEL = "Cancel"
+        private const val OK = "Ok"
+        private const val FIRST_OPTION = "By price"
+        private const val SECOND_OPTION = "Alphabetically"
+        private const val TAG = "SORT_FRAGMENT"
+        private const val SORT_HEADER = "SORT"
+    }
+
 
 }

@@ -15,7 +15,7 @@ class CoinViewModel(
 ) : ViewModel() {
 
 
-    private val _stateFlow = MutableStateFlow(listOf(CoinResponce(0L,"","","")))
+    private val _stateFlow = MutableStateFlow(listOf(CoinResponce(0.0F,"","","")))
 
     fun getInfo() {
         viewModelScope.launch(Dispatchers.Main) {

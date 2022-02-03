@@ -6,7 +6,7 @@ import java.util.ArrayList
 
 
 data class CoinResponce(
-     val current_price: Long,
+     val current_price: Float,
      val id: String,
      val image: String,
      val symbol: String,
