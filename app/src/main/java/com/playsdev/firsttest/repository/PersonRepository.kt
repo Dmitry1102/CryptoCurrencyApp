@@ -8,14 +8,12 @@ import kotlinx.coroutines.flow.Flow
 class PersonRepository(
      private val personDao: PersonDao
 ) {
-     fun setPerson(): Flow<List<Person>> = personDao.setPerson()
+     fun setPerson(): Flow<Person> = personDao.setPerson()
 
      suspend fun addPersonToDataBase(person: Person){
           personDao.insertPerson(person)
      }
 
-     suspend fun updatePerson(person: Person){
-          personDao.updatePerson(person)
-     }
+
 }
 

@@ -43,7 +43,7 @@ class MainFragment : Fragment() {
             viewModel.stateFlow.collect { listCoins = it.toMutableList() }
         }
 
-        addToDataBase(listCoins!!)
+       // addToDataBase(listCoins!!)
         binding?.rvCurrency?.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding?.rvCurrency?.adapter = coinAdapter
