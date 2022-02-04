@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.playsdev.firsttest.cloud.CoinResponce
 
-@Database(entities = [Coin::class], version = 2, exportSchema = false )
+@Database(entities = [Coin::class], version = 1, exportSchema = false )
 abstract class CoinDataBase: RoomDatabase() {
     abstract fun coinDao():CoinDao
 }
@@ -16,6 +16,6 @@ object CoinDatabaseConstructor {
         Room.databaseBuilder(
             context,
             CoinDataBase::class.java,
-            "user_table"
+            "coin_table"
         ).fallbackToDestructiveMigration().build()
 }

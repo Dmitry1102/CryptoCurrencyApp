@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "user_table")
+@Entity(tableName = "person_table")
 data class Person(
     @PrimaryKey val name:String,
     val surname:String,

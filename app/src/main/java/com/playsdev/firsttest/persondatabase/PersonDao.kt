@@ -9,7 +9,7 @@ interface PersonDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPerson(person: Person)
 
-    @Query("SELECT * FROM user_table ORDER BY name ASC ")
+    @Query("SELECT * FROM person_table ORDER BY name ASC ")
     fun setPerson():Flow<Person>
 
 }

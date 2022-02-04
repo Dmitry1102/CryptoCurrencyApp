@@ -46,7 +46,9 @@ class SettingsFragment : Fragment() {
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             val name = binding?.editTextName?.text?.trim()?.toString()!!
             val surname = binding?.editSurname?.text?.trim()?.toString()!!
+            val date = binding?.editTextDate?.text?.trim()?.toString()!!
             binding?.btnSave?.isEnabled = inputCheck(name, surname)
+
         }
 
         override fun afterTextChanged(p0: Editable?) {}
@@ -78,7 +80,8 @@ class SettingsFragment : Fragment() {
             addToPersonDataBase()
         }
 
-       // setFromDataBase()
+
+       setFromDataBase()
 
         val items = arrayOf(FIRST_OPTION, SECOND_OPTION)
         binding?.ivPhoto?.setOnClickListener {
@@ -92,35 +95,6 @@ class SettingsFragment : Fragment() {
                 }.show()
         }
 
-        photoSelectResultLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            {
-                if (it.resultCode == Activity.RESULT_OK) {
-                    val photoUri = it.data?.data
-                    bitmap = Bitmap.createScaledBitmap(
-                        MediaStore.Images.Media.getBitmap(context?.contentResolver, photoUri),
-                        360,
-                        248,
-                        false
-                    )
-                    binding?.ivPhotoFrame?.setImageBitmap(bitmap)
-                }
-            }
-
-        takePhotoResultLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            {
-                if (it.resultCode == Activity.RESULT_OK) {
-                    val uri = photoFile?.toUri()
-                    bitmap = Bitmap.createScaledBitmap(
-                        MediaStore.Images.Media.getBitmap(context?.contentResolver, uri),
-                        360,
-                        248,
-                        false
-                    )
-                    binding?.ivPhotoFrame?.setImageBitmap(bitmap)
-                }
-            }
 
 
     }
@@ -160,7 +134,6 @@ class SettingsFragment : Fragment() {
         viewLifecycleOwner.lifecycle.coroutineScope.launch{
             viewModel.setPerson.collect {
                 personCheck = it
-                Log.d("FFF", "$it")
                 fillFields(personCheck!!)
                 binding?.editTextName?.isEnabled = false
                 binding?.editTextDate?.isEnabled = false
@@ -216,6 +189,9 @@ class SettingsFragment : Fragment() {
     private fun inputCheck(name: String, surname: String): Boolean {
         return surname.isNotEmpty() && name.isNotEmpty()
     }
+
+
+
 
     companion object {
         private const val PERSON_ADD = "Person successfully added!"

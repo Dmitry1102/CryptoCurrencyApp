@@ -2,6 +2,7 @@ package com.playsdev.testapp.main
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.playsdev.firsttest.coindatabase.Coin
 import com.playsdev.firsttest.databinding.MainFragmentBinding
 import com.playsdev.firsttest.viewmodel.CoinDataBaseViewModel
 import com.playsdev.firsttest.viewmodel.CoinViewModel
+import com.playsdev.testapp.splash.SplashActivity.Companion.LIST_TAG
 import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
 
@@ -38,19 +40,16 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding?.ivSort?.setOnClickListener { makeDialogFragment() }
         viewModel.getInfo()
+        setAdapter()
+
+        val listFromBase = requireActivity().intent?.getSerializableExtra(LIST_TAG)
+        Log.d("NNN","$listFromBase")
+
 
         viewLifecycleOwner.lifecycle.coroutineScope.launchWhenResumed {
             viewModel.stateFlow.collect { listCoins = it.toMutableList()
                 addToDataBase(listCoins!!)}
         }
-
-
-
-
-        binding?.rvCurrency?.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        binding?.rvCurrency?.adapter = coinAdapter
-
 
         binding?.swipeLayout?.setOnRefreshListener {
             viewLifecycleOwner.lifecycle.coroutineScope.launchWhenResumed {
@@ -60,6 +59,7 @@ class MainFragment : Fragment() {
                 }
             }
         }
+
 
 
     }
@@ -95,6 +95,12 @@ class MainFragment : Fragment() {
             )
         }
         coinViewModel.addToDataBase(dataList)
+    }
+
+    private fun setAdapter(){
+        binding?.rvCurrency?.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding?.rvCurrency?.adapter = coinAdapter
     }
 
     private fun sortAlphabetically(list: MutableList<CoinResponce>) {

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Parcelable
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.playsdev.firsttest.MainActivity
@@ -24,7 +25,7 @@ class SplashActivity : AppCompatActivity() {
 
     private var binding: ActivitySplashBinding? = null
     private val viewModel by inject<CoinDataBaseViewModel>()
-    private var startList:MutableList<CoinResponce>? = null
+    private var startList: MutableList<CoinResponce>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
@@ -32,12 +33,12 @@ class SplashActivity : AppCompatActivity() {
 
 
 
-        lifecycleScope.launch{
-             val list = viewModel.getCoinList().map {
+        lifecycleScope.launch {
+            val list = viewModel.getCoinList().map {
                 it.map { coin ->
                     CoinResponce(
                         current_price = coin.current_price ,
-                        id = coin.id,
+                        id = coin.id ,
                         image = coin.image,
                         symbol = coin.symbol
                     )
@@ -47,12 +48,16 @@ class SplashActivity : AppCompatActivity() {
             list.collect {
                 startList = it.toMutableList()
             }
+
         }
 
-        Handler(Looper.getMainLooper()).postDelayed( {
+        Log.d("AVV", "$startList")
+
+
+        Handler(Looper.getMainLooper()).postDelayed({
             val intent = Intent(this, MainActivity::class.java)
-            val transferIntent = Intent(this,MainFragment::class.java)
-            transferIntent.putExtra(LIST_TAG,startList?.toArrayList())
+            val transferIntent = Intent(this, MainFragment::class.java)
+           //transferIntent.putExtra(LIST_TAG, startList)
             startActivity(intent)
         }, DURATION)
     }
@@ -62,9 +67,6 @@ class SplashActivity : AppCompatActivity() {
         binding = null
     }
 
-    private fun <T> List<T>.toArrayList(): ArrayList<T>{
-        return ArrayList(this)
-    }
 
     companion object {
         private const val DURATION: Long = 1000
