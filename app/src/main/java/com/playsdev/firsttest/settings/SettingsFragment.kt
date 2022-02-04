@@ -27,7 +27,6 @@ import com.playsdev.firsttest.databinding.SettingsFragmentBinding
 import com.playsdev.firsttest.persondatabase.Person
 import com.playsdev.firsttest.viewmodel.PersonDataViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -46,9 +45,7 @@ class SettingsFragment : Fragment() {
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             val name = binding?.editTextName?.text?.trim()?.toString()!!
             val surname = binding?.editSurname?.text?.trim()?.toString()!!
-            val date = binding?.editTextDate?.text?.trim()?.toString()!!
             binding?.btnSave?.isEnabled = inputCheck(name, surname)
-
         }
 
         override fun afterTextChanged(p0: Editable?) {}
@@ -59,6 +56,7 @@ class SettingsFragment : Fragment() {
     private var photoFile: File? = null
     private var bitmap: Bitmap? = null
     private var personCheck: Person? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -77,11 +75,27 @@ class SettingsFragment : Fragment() {
         binding?.editTextDate?.addTextChangedListener(textWatcher)
 
         binding?.btnSave?.setOnClickListener {
-            addToPersonDataBase()
+            addToDataBase()
         }
 
 
-       setFromDataBase()
+
+
+        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenCreated {
+            viewModel.setPerson.collectLatest {
+                personCheck = it
+                Log.d("FFF", "$it")
+                if (personCheck != null){
+                    fillFields(personCheck!!)
+                    binding?.editTextName?.isEnabled = false
+                    binding?.editTextDate?.isEnabled = false
+                    binding?.editSurname?.isEnabled = false
+                    binding?.btnSave?.isEnabled = false
+                    binding?.ivPhoto?.isEnabled = false
+                }
+            }
+        }
+
 
         val items = arrayOf(FIRST_OPTION, SECOND_OPTION)
         binding?.ivPhoto?.setOnClickListener {
@@ -95,11 +109,38 @@ class SettingsFragment : Fragment() {
                 }.show()
         }
 
+        photoSelectResultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == Activity.RESULT_OK) {
+                    val photoUri = it.data?.data
+                    bitmap = Bitmap.createScaledBitmap(
+                        MediaStore.Images.Media.getBitmap(context?.contentResolver, photoUri),
+                        360,
+                        248,
+                        false
+                    )
+                    binding?.ivPhotoFrame?.setImageBitmap(bitmap)
+                }
+            }
+
+        takePhotoResultLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+                if (it.resultCode == Activity.RESULT_OK) {
+                    val uri = photoFile?.toUri()
+                    bitmap = Bitmap.createScaledBitmap(
+                        MediaStore.Images.Media.getBitmap(context?.contentResolver, uri),
+                        360,
+                        248,
+                        false
+                    )
+                    binding?.ivPhotoFrame?.setImageBitmap(bitmap)
+                }
+            }
 
 
     }
 
-    private fun addToPersonDataBase() {
+    private fun addToDataBase() {
         val name = binding?.editTextName?.text.toString()
         val surname = binding?.editSurname?.text.toString()
         val date = binding?.editTextDate?.text.toString()
@@ -126,20 +167,6 @@ class SettingsFragment : Fragment() {
             materialDatePicker.show(childFragmentManager, OPEN_TAG)
             materialDatePicker.addOnPositiveButtonClickListener { selection ->
                 binding?.editTextDate?.setText(convertDate(selection))
-            }
-        }
-    }
-
-    private fun setFromDataBase() {
-        viewLifecycleOwner.lifecycle.coroutineScope.launch{
-            viewModel.setPerson.collect {
-                personCheck = it
-                fillFields(personCheck!!)
-                binding?.editTextName?.isEnabled = false
-                binding?.editTextDate?.isEnabled = false
-                binding?.editSurname?.isEnabled = false
-                binding?.btnSave?.isEnabled = false
-                binding?.ivPhoto?.isEnabled = false
             }
         }
     }
@@ -174,11 +201,6 @@ class SettingsFragment : Fragment() {
         return format.format(date)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        binding = null
-    }
-
     private fun fillFields(person: Person) {
         binding?.editTextName?.setText(person.name)
         binding?.editSurname?.setText(person.surname)
@@ -191,6 +213,10 @@ class SettingsFragment : Fragment() {
     }
 
 
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
+    }
 
 
     companion object {

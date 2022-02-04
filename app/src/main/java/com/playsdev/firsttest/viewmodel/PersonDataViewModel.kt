@@ -16,10 +16,7 @@ class PersonDataViewModel(
     private val personRepository: PersonRepository
 ) : ViewModel() {
 
-
-
     val setPerson: Flow<Person> = personRepository.setPerson()
-
 
     fun addPerson(person: Person){
         viewModelScope.launch(Dispatchers.IO) {
