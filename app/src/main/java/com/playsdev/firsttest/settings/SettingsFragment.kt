@@ -47,6 +47,7 @@ class SettingsFragment : Fragment() {
             val surname = binding?.editSurname?.text?.trim()?.toString()!!
             binding?.btnSave?.isEnabled = inputCheck(name, surname)
         }
+
         override fun afterTextChanged(p0: Editable?) {}
     }
     private val viewModel by inject<PersonDataViewModel>()
@@ -55,6 +56,7 @@ class SettingsFragment : Fragment() {
     private var photoFile: File? = null
     private var bitmap: Bitmap? = null
     private var personCheck: Person? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,29 +69,32 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        pickDate()
+        binding?.editTextName?.addTextChangedListener(textWatcher)
+        binding?.editSurname?.addTextChangedListener(textWatcher)
+        binding?.editTextDate?.addTextChangedListener(textWatcher)
 
-                pickDate()
-                binding?.editTextName?.addTextChangedListener(textWatcher)
-                binding?.editSurname?.addTextChangedListener(textWatcher)
-                binding?.editTextDate?.addTextChangedListener(textWatcher)
+        binding?.btnSave?.setOnClickListener {
+            addToDataBase()
+        }
 
-                binding?.btnSave?.setOnClickListener {
-                    addToDataBase()
+
+
+
+        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenCreated {
+            viewModel.setPerson.collectLatest {
+                personCheck = it
+                Log.d("FFF", "$it")
+                if (personCheck != null){
+                    fillFields(personCheck!!)
+                    binding?.editTextName?.isEnabled = false
+                    binding?.editTextDate?.isEnabled = false
+                    binding?.editSurname?.isEnabled = false
+                    binding?.btnSave?.isEnabled = false
+                    binding?.ivPhoto?.isEnabled = false
                 }
-
-                viewLifecycleOwner.lifecycle.coroutineScope.launchWhenCreated {
-                    viewModel.setPerson.collectLatest {
-                        personCheck = it
-                        Log.d("FFF","$it")
-                        fillFields(personCheck!!)
-                        binding?.editTextName?.isEnabled = false
-                        binding?.editTextDate?.isEnabled = false
-                        binding?.editSurname?.isEnabled = false
-                        binding?.btnSave?.isEnabled = false
-                        binding?.ivPhoto?.isEnabled = false
-                    }
-                }
-
+            }
+        }
 
 
         val items = arrayOf(FIRST_OPTION, SECOND_OPTION)
@@ -140,15 +145,15 @@ class SettingsFragment : Fragment() {
         val surname = binding?.editSurname?.text.toString()
         val date = binding?.editTextDate?.text.toString()
         val person = Person(name = name, surname = surname, date = date, image = bitmap!!)
-        Log.e("AAA","$person")
+        Log.e("AAA", "$person")
 
         try {
             if (inputCheck(name, surname)) {
                 viewModel.addPerson(person)
                 Toast.makeText(context, PERSON_ADD, Toast.LENGTH_LONG).show()
             }
-        }catch (e: Exception){
-            Toast.makeText(context,"exception found $e",Toast.LENGTH_LONG).show()
+        } catch (e: Exception) {
+            Toast.makeText(context, "exception found $e", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -196,11 +201,6 @@ class SettingsFragment : Fragment() {
         return format.format(date)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        binding = null
-    }
-
     private fun fillFields(person: Person) {
         binding?.editTextName?.setText(person.name)
         binding?.editSurname?.setText(person.surname)
@@ -211,6 +211,13 @@ class SettingsFragment : Fragment() {
     private fun inputCheck(name: String, surname: String): Boolean {
         return surname.isNotEmpty() && name.isNotEmpty()
     }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
+    }
+
 
     companion object {
         private const val PERSON_ADD = "Person successfully added!"
