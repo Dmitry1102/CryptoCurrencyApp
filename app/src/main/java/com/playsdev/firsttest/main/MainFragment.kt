@@ -21,6 +21,7 @@ import org.koin.android.ext.android.inject
 
 class MainFragment : Fragment() {
 
+
     private var binding: MainFragmentBinding? = null
     private val viewModel by inject<CoinViewModel>()
     private var listCoins: MutableList<CoinResponce>? = null
@@ -42,14 +43,19 @@ class MainFragment : Fragment() {
         viewModel.getInfo()
         setAdapter()
 
-        val listFromBase = requireActivity().intent?.getSerializableExtra(LIST_TAG)
-        Log.d("NNN","$listFromBase")
-
 
         viewLifecycleOwner.lifecycle.coroutineScope.launchWhenResumed {
-            viewModel.stateFlow.collect { listCoins = it.toMutableList()
-                addToDataBase(listCoins!!)}
+            coinViewModel.getCoinList().collect {
+                listCoins = it.toMutableList()
+                coinAdapter.submitList(listCoins)
+            }
         }
+
+
+
+
+
+
 
         binding?.swipeLayout?.setOnRefreshListener {
             viewLifecycleOwner.lifecycle.coroutineScope.launchWhenResumed {
@@ -85,17 +91,7 @@ class MainFragment : Fragment() {
         alertDialog.show()
     }
 
-    private fun addToDataBase(list: MutableList<CoinResponce>) {
-        val dataList: List<Coin> = list.toList().map {
-            Coin(
-                current_price = it.current_price,
-                id = it.id,
-                image = it.image,
-                symbol = it.symbol
-            )
-        }
-        coinViewModel.addToDataBase(dataList)
-    }
+
 
     private fun setAdapter(){
         binding?.rvCurrency?.layoutManager =

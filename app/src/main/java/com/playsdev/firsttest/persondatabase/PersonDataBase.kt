@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.playsdev.firsttest.settings.Converters
 
-@Database(entities = [Person::class], version = 2, exportSchema = false)
+@Database(entities = [Person::class], version = 3, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class PersonDataBase: RoomDatabase() {
     abstract fun personDao():PersonDao

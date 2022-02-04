@@ -79,8 +79,6 @@ class SettingsFragment : Fragment() {
         }
 
 
-
-
         viewLifecycleOwner.lifecycle.coroutineScope.launchWhenCreated {
             viewModel.setPerson.collectLatest {
                 personCheck = it
