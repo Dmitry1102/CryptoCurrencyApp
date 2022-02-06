@@ -17,7 +17,7 @@ class CoinDataBaseRepository(
     private val coinDataBase: CoinDataBase
 ) {
 
-    suspend fun addToDataBase(coin: List<Coin>){
+    suspend fun addToDataBase(coin: PagingData<Coin>){
         coinDao.addToDataBase(coin)
     }
 

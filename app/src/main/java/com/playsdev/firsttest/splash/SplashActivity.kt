@@ -6,11 +6,15 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagingData
 import com.playsdev.firsttest.MainActivity
 import com.playsdev.firsttest.coindatabase.Coin
 import com.playsdev.firsttest.databinding.ActivitySplashBinding
 import com.playsdev.firsttest.viewmodel.CoinDataBaseViewModel
 import com.playsdev.firsttest.viewmodel.CoinViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 @SuppressLint("CustomSplashScreen")
@@ -28,25 +32,19 @@ class SplashActivity : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed({
 
-//            lifecycleScope.launch {
-//                viewModel.getCoin().distinctUntilChanged().collect {
-//
-//                }
-//            }
-//
-//            lifecycle.coroutineScope.launchWhenResumed {
-//                viewModel.list.collect { startList ->
-//                    val list =  startList }
-//            }
-
+            lifecycleScope.launch {
+                viewModel.getCoin().collect {
+                    addToDataBase(it)
+                }
+            }
 
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }, DURATION)
     }
 
-    private fun addToDataBase(list: MutableList<Coin>) {
-        coinViewModel.addToDataBase(list)
+    private fun addToDataBase(data: PagingData<Coin>) {
+        coinViewModel.addToDataBase(data)
     }
 
     override fun onDestroy() {
