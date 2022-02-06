@@ -1,29 +1,39 @@
 package com.playsdev.firsttest.repository
 
-import com.playsdev.firsttest.cloud.CoinResponce
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.playsdev.firsttest.cloud.CoinApi
 import com.playsdev.firsttest.coindatabase.Coin
 import com.playsdev.firsttest.coindatabase.CoinDao
-import com.playsdev.firsttest.persondatabase.Person
+import com.playsdev.firsttest.coindatabase.CoinDataBase
+import com.playsdev.firsttest.mediator.CoinMediator
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 class CoinDataBaseRepository(
-    private val coinDao:CoinDao
+    private val coinDao:CoinDao,
+    private val coinApi: CoinApi,
+    private val coinDataBase: CoinDataBase
 ) {
 
     suspend fun addToDataBase(coin: List<Coin>){
         coinDao.addToDataBase(coin)
     }
 
-    fun getCoinList(): Flow<List<CoinResponce>> = coinDao.getCoinList().map {
-        it.map { coin ->
-            CoinResponce(
-                current_price = coin.current_price,
-                id = coin.id,
-                image = coin.image,
-                symbol = coin.symbol
-            )
-        }
+    @ExperimentalPagingApi
+    fun getCoinFromDataBase(pagingConfig: PagingConfig = getDefaultPageConfig()): Flow<PagingData<Coin>> {
+
+        val pagingSourceFactory = { coinDao.getCoinList() }
+        return Pager(
+            config = pagingConfig,
+            pagingSourceFactory = pagingSourceFactory,
+            remoteMediator = CoinMediator(coinApi, coinDataBase)
+        ).flow
+    }
+
+    private fun getDefaultPageConfig(): PagingConfig {
+        return PagingConfig(pageSize = CoinApi.DEFAULT_PAGE_SIZE, enablePlaceholders = false)
     }
 
 }

@@ -5,22 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.os.Parcelable
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.coroutineScope
-import androidx.lifecycle.lifecycleScope
 import com.playsdev.firsttest.MainActivity
-import com.playsdev.firsttest.adapter.CoinAdapter
-import com.playsdev.firsttest.cloud.CoinResponce
 import com.playsdev.firsttest.coindatabase.Coin
 import com.playsdev.firsttest.databinding.ActivitySplashBinding
 import com.playsdev.firsttest.viewmodel.CoinDataBaseViewModel
 import com.playsdev.firsttest.viewmodel.CoinViewModel
-import com.playsdev.testapp.main.MainFragment
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 @SuppressLint("CustomSplashScreen")
@@ -37,10 +27,17 @@ class SplashActivity : AppCompatActivity() {
 
 
         Handler(Looper.getMainLooper()).postDelayed({
-            lifecycle.coroutineScope.launchWhenResumed {
-                viewModel.stateFlow.collect { startList ->
-                    val list =  startList.toMutableList() }
-            }
+
+//            lifecycleScope.launch {
+//                viewModel.getCoin().distinctUntilChanged().collect {
+//
+//                }
+//            }
+//
+//            lifecycle.coroutineScope.launchWhenResumed {
+//                viewModel.list.collect { startList ->
+//                    val list =  startList }
+//            }
 
 
             val intent = Intent(this, MainActivity::class.java)
@@ -48,16 +45,8 @@ class SplashActivity : AppCompatActivity() {
         }, DURATION)
     }
 
-    private fun addToDataBase(list: MutableList<CoinResponce>) {
-        val dataList: List<Coin> = list.toList().map {
-            Coin(
-                current_price = it.current_price,
-                id = it.id,
-                image = it.image,
-                symbol = it.symbol
-            )
-        }
-        coinViewModel.addToDataBase(dataList)
+    private fun addToDataBase(list: MutableList<Coin>) {
+        coinViewModel.addToDataBase(list)
     }
 
     override fun onDestroy() {

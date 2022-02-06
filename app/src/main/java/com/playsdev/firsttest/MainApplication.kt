@@ -2,6 +2,7 @@ package com.playsdev.firsttest
 
 import android.app.Application
 import com.playsdev.firsttest.cloud.CoinApi
+import com.playsdev.firsttest.cloud.CoinPagingSource
 import com.playsdev.firsttest.coindatabase.CoinDataBase
 import com.playsdev.firsttest.coindatabase.CoinDatabaseConstructor
 import com.playsdev.firsttest.persondatabase.PersonDataBase
@@ -35,7 +36,7 @@ class MainApplication: Application(), KoinComponent {
     private val repository = module {
         factory { PersonRepository(get()) }
         factory { CoinRepository(get()) }
-        factory { CoinDataBaseRepository(get()) }
+        factory { CoinDataBaseRepository(get(),get(),get()) }
     }
 
     private val viewModels = module {
@@ -58,5 +59,8 @@ class MainApplication: Application(), KoinComponent {
         factory { get<PersonDataBase>().personDao() }
         single { CoinDatabaseConstructor.create(get()) }
         factory { get<CoinDataBase>().coinDao() }
+        factory { get<CoinDataBase>().coinKeyDao() }
     }
+
+
 }

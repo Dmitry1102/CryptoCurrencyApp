@@ -2,9 +2,10 @@ package com.playsdev.firsttest.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.playsdev.firsttest.cloud.CoinResponce
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.playsdev.firsttest.coindatabase.Coin
-import com.playsdev.firsttest.persondatabase.Person
 import com.playsdev.firsttest.repository.CoinDataBaseRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -20,8 +21,10 @@ class CoinDataBaseViewModel(
         }
     }
 
-    fun getCoinList(): Flow<List<CoinResponce>> =
-        coinDataBaseRepository.getCoinList()
+    @ExperimentalPagingApi
+    fun getCoinList(): Flow<PagingData<Coin>> {
+        return coinDataBaseRepository.getCoinFromDataBase().cachedIn(viewModelScope)
+    }
 
 
 }

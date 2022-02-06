@@ -2,21 +2,22 @@ package com.playsdev.testapp.main
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.playsdev.firsttest.adapter.CoinAdapter
-import com.playsdev.firsttest.cloud.CoinResponce
 import com.playsdev.firsttest.coindatabase.Coin
 import com.playsdev.firsttest.databinding.MainFragmentBinding
 import com.playsdev.firsttest.viewmodel.CoinDataBaseViewModel
 import com.playsdev.firsttest.viewmodel.CoinViewModel
-import com.playsdev.testapp.splash.SplashActivity.Companion.LIST_TAG
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class MainFragment : Fragment() {
@@ -24,7 +25,6 @@ class MainFragment : Fragment() {
 
     private var binding: MainFragmentBinding? = null
     private val viewModel by inject<CoinViewModel>()
-    private var listCoins: MutableList<CoinResponce>? = null
     private val coinAdapter = CoinAdapter()
     private val coinViewModel by inject<CoinDataBaseViewModel>()
 
@@ -37,18 +37,15 @@ class MainFragment : Fragment() {
         return binding?.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.ivSort?.setOnClickListener { makeDialogFragment() }
-        viewModel.getInfo()
         setAdapter()
 
 
         viewLifecycleOwner.lifecycle.coroutineScope.launchWhenResumed {
-            coinViewModel.getCoinList().collect {
-                listCoins = it.toMutableList()
-                coinAdapter.submitList(listCoins)
-            }
+
         }
 
 
@@ -58,10 +55,9 @@ class MainFragment : Fragment() {
 
 
         binding?.swipeLayout?.setOnRefreshListener {
-            viewLifecycleOwner.lifecycle.coroutineScope.launchWhenResumed {
-                viewModel.stateFlow.collect {
-                    listCoins = it.toMutableList()
-                    coinAdapter.submitList(listCoins)
+            lifecycleScope.launch {
+                viewModel.getCoin().distinctUntilChanged().collectLatest {
+                    coinAdapter.submitData(it)
                 }
             }
         }
@@ -82,8 +78,8 @@ class MainFragment : Fragment() {
         val checkedItem = 1
         alertDialog.setSingleChoiceItems(items, checkedItem) { _, which ->
             when (which) {
-                0 -> sortByPrice(listCoins!!)
-                1 -> sortAlphabetically(listCoins!!)
+                //0 -> sortByPrice(listCoins!!)
+                //1 -> sortAlphabetically(listCoins!!)
             }
         }
         alertDialog.setNegativeButton(CANCEL) { dialog, _ -> dialog.cancel() }
@@ -99,12 +95,12 @@ class MainFragment : Fragment() {
         binding?.rvCurrency?.adapter = coinAdapter
     }
 
-    private fun sortAlphabetically(list: MutableList<CoinResponce>) {
-        coinAdapter.submitList(list.sortedBy { it.id })
+    private fun sortAlphabetically(list: MutableList<Coin>) {
+        //coinAdapter.submitData(list.sortedBy { it.id })
     }
 
-    private fun sortByPrice(list: MutableList<CoinResponce>) {
-        coinAdapter.submitList(list.sortedBy { it.current_price })
+    private fun sortByPrice(list: MutableList<Coin>) {
+      //  coinAdapter.submitList(list.sortedBy { it.current_price })
     }
 
     companion object {
