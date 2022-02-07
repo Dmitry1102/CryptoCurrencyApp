@@ -2,6 +2,7 @@ package com.playsdev.firsttest.cloud
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.playsdev.firsttest.cloud.CoinService.DEFAULT_PAGE_SIZE
 import com.playsdev.firsttest.coindatabase.Coin
 import retrofit2.HttpException
 import java.lang.Exception
@@ -17,11 +18,11 @@ class CoinPagingSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Coin> {
         val page: Int = params.key ?: PAGE_INDEX
-        val pageSize: Int = params.loadSize.coerceAtMost(CoinApi.DEFAULT_PAGE_SIZE)
+        val pageSize: Int = params.loadSize.coerceAtMost(DEFAULT_PAGE_SIZE)
 
 
         return try {
-            val responce = coinApi.getCoinPageInfo(page, pageSize)
+            val responce = coinApi.getCoinPageToAdapter(page, pageSize)
             val nextPageNumber = if (responce.isEmpty()) null else page + 1
             val prevPageNumber = if (page > 1) page - 1 else null
             LoadResult.Page(responce, prevPageNumber, nextPageNumber)

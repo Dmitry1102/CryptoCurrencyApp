@@ -31,7 +31,7 @@ class CoinMediator(
         }
 
         try {
-            val response = coinApi.getCoinPageInfo(page, state.config.pageSize)
+            val response = coinApi.getCoinPageToAdapter(page, state.config.pageSize)
             val isEndOfList = response.isEmpty()
             coinDataBase.withTransaction {
                 // clear all tables in the database

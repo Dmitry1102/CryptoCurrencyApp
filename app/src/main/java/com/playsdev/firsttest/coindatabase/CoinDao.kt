@@ -6,15 +6,16 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CoinDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addToDataBase(coin: PagingData<Coin>)
+    suspend fun addToDataBase(coin: List<Coin>)
 
     @Query("SELECT * FROM coin_table")
-    fun getCoinList(): PagingSource<Int, Coin>
+    fun getCoinListToAdapter(): PagingSource<Int, Coin>
 
     @Query("DELETE FROM coin_table")
     suspend fun clearInfo()

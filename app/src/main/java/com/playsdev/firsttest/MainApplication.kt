@@ -3,6 +3,7 @@ package com.playsdev.firsttest
 import android.app.Application
 import com.playsdev.firsttest.cloud.CoinApi
 import com.playsdev.firsttest.cloud.CoinPagingSource
+import com.playsdev.firsttest.cloud.CoinService
 import com.playsdev.firsttest.coindatabase.CoinDataBase
 import com.playsdev.firsttest.coindatabase.CoinDatabaseConstructor
 import com.playsdev.firsttest.persondatabase.PersonDataBase
@@ -46,7 +47,7 @@ class MainApplication: Application(), KoinComponent {
     }
 
     private val cloudModule = module {
-        factory { CoinApi.apiService() }
+        factory { CoinService.apiService() }
     }
 
     private val internet = module {

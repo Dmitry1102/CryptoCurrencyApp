@@ -7,7 +7,6 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.paging.PagingData
 import com.playsdev.firsttest.MainActivity
 import com.playsdev.firsttest.coindatabase.Coin
 import com.playsdev.firsttest.databinding.ActivitySplashBinding
@@ -23,6 +22,7 @@ class SplashActivity : AppCompatActivity() {
 
     private val viewModel by inject<CoinViewModel>()
     private var binding: ActivitySplashBinding? = null
+    private var listCoin: List<Coin>? = null
     private val coinViewModel by inject<CoinDataBaseViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,19 +31,16 @@ class SplashActivity : AppCompatActivity() {
 
 
         Handler(Looper.getMainLooper()).postDelayed({
-
-            lifecycleScope.launch {
-                viewModel.getCoin().collect {
-                    addToDataBase(it)
-                }
+            lifecycleScope.launch{
+                listCoin = viewModel.getCoin()
+                addToDataBase(listCoin!!)
             }
-
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }, DURATION)
     }
 
-    private fun addToDataBase(data: PagingData<Coin>) {
+    private fun addToDataBase(data: List<Coin>) {
         coinViewModel.addToDataBase(data)
     }
 

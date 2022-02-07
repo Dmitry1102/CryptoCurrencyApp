@@ -6,8 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.coroutineScope
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.playsdev.firsttest.adapter.CoinAdapter
 import com.playsdev.firsttest.coindatabase.Coin
@@ -38,25 +39,21 @@ class MainFragment : Fragment() {
     }
 
 
+    @OptIn(ExperimentalPagingApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding?.ivSort?.setOnClickListener { makeDialogFragment() }
         setAdapter()
-
-
-        viewLifecycleOwner.lifecycle.coroutineScope.launchWhenResumed {
-
+        lifecycleScope.launch {
+            coinViewModel.getCoinList().collect {
+                coinAdapter.submitData(it)
+            }
         }
-
-
-
-
-
 
 
         binding?.swipeLayout?.setOnRefreshListener {
             lifecycleScope.launch {
-                viewModel.getCoin().distinctUntilChanged().collectLatest {
+                viewModel.getCoinToAdapter().distinctUntilChanged().collectLatest {
                     coinAdapter.submitData(it)
                 }
             }
@@ -95,8 +92,9 @@ class MainFragment : Fragment() {
         binding?.rvCurrency?.adapter = coinAdapter
     }
 
-    private fun sortAlphabetically(list: MutableList<Coin>) {
-        //coinAdapter.submitData(list.sortedBy { it.id })
+    private fun sortAlphabetically(list: PagingData<Coin>) {
+        coinAdapter.submitData()
+    //coinAdapter.submitData(list.sortedBy { it.id })
     }
 
     private fun sortByPrice(list: MutableList<Coin>) {

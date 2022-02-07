@@ -5,6 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.playsdev.firsttest.cloud.CoinApi
+import com.playsdev.firsttest.cloud.CoinService.DEFAULT_PAGE_SIZE
 import com.playsdev.firsttest.coindatabase.Coin
 import com.playsdev.firsttest.coindatabase.CoinDao
 import com.playsdev.firsttest.coindatabase.CoinDataBase
@@ -17,14 +18,14 @@ class CoinDataBaseRepository(
     private val coinDataBase: CoinDataBase
 ) {
 
-    suspend fun addToDataBase(coin: PagingData<Coin>){
+    suspend fun addToDataBase(coin: List<Coin>){
         coinDao.addToDataBase(coin)
     }
 
     @ExperimentalPagingApi
     fun getCoinFromDataBase(pagingConfig: PagingConfig = getDefaultPageConfig()): Flow<PagingData<Coin>> {
 
-        val pagingSourceFactory = { coinDao.getCoinList() }
+        val pagingSourceFactory = { coinDao.getCoinListToAdapter() }
         return Pager(
             config = pagingConfig,
             pagingSourceFactory = pagingSourceFactory,
@@ -33,7 +34,7 @@ class CoinDataBaseRepository(
     }
 
     private fun getDefaultPageConfig(): PagingConfig {
-        return PagingConfig(pageSize = CoinApi.DEFAULT_PAGE_SIZE, enablePlaceholders = false)
+        return PagingConfig(pageSize = DEFAULT_PAGE_SIZE, enablePlaceholders = false)
     }
 
 }
