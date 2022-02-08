@@ -6,9 +6,9 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.playsdev.firsttest.cloud.CoinApi
-import com.playsdev.firsttest.coindatabase.Coin
+import com.playsdev.firsttest.data.Coin
 import com.playsdev.firsttest.coindatabase.CoinDataBase
-import com.playsdev.firsttest.coindatabase.CoinKey
+import com.playsdev.firsttest.data.CoinKey
 import retrofit2.HttpException
 import java.io.IOException
 import java.io.InvalidObjectException

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:background="@color/green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="21dp"
+            android:src="@drawable/chevron_left_icon_24" />
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="21dp" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="249dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="106dp"
+            android:layout_marginTop="21dp"
+            android:fontFamily="@font/roboto"
+            android:letterSpacing="0.01"
+            android:lineHeight="24sp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            tools:targetApi="p" />
+    </FrameLayout>
+
+
+    <TextView
+        android:id="@+id/tv_currency"
+        android:layout_width="178dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/roboto"
+        android:letterSpacing="-0.01"
+        android:lineHeight="42sp"
+        android:textColor="@color/black"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frame"
+        app:layout_constraintVertical_bias="1.0"
+        tools:targetApi="p" />
+
+    <TextView
+        android:id="@+id/tv_currency_percent"
+        android:layout_width="72dp"
+        android:layout_height="19dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/roboto"
+        android:letterSpacing="-0.02"
+        android:lineHeight="19sp"
+        android:textColor="@color/green"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_currency"
+        tools:targetApi="p" />
+
+    <FrameLayout
+        android:id="@+id/graphic"
+        android:layout_width="match_parent"
+        android:layout_height="132dp"
+        android:layout_marginTop="17dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_currency_percent" />
+
+    <LinearLayout
+        android:id="@+id/linear_frame"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/graphic">
+
+        <TextView
+            android:id="@+id/tv_day"
+            android:layout_width="29dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="28dp"
+            android:fontFamily="@font/roboto"
+            android:letterSpacing="-0.02"
+            android:lineHeight="19sp"
+            android:text="@string/day"
+            android:textColor="@color/text"
+            tools:targetApi="p" />
+
+        <TextView
+            android:id="@+id/tv_week"
+            android:layout_width="29dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="28dp"
+            android:fontFamily="@font/roboto"
+            android:letterSpacing="-0.02"
+            android:lineHeight="19sp"
+            android:text="@string/week"
+            android:textColor="@color/text"
+            tools:targetApi="p" />
+
+        <TextView
+            android:id="@+id/tv_month"
+            android:layout_width="29dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="28dp"
+            android:fontFamily="@font/roboto"
+            android:letterSpacing="-0.02"
+            android:lineHeight="19sp"
+            android:text="@string/month"
+            android:textColor="@color/text"
+            tools:targetApi="p" />
+
+        <TextView
+            android:id="@+id/tv_year"
+            android:layout_width="29dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="28dp"
+            android:fontFamily="@font/roboto"
+            android:letterSpacing="-0.02"
+            android:lineHeight="19sp"
+            android:text="@string/year"
+            android:textColor="@color/text"
+            tools:targetApi="p" />
+
+        <TextView
+            android:id="@+id/tv_full_period"
+            android:layout_width="29dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="28dp"
+            android:fontFamily="@font/roboto"
+            android:letterSpacing="-0.02"
+            android:lineHeight="19sp"
+            android:text="@string/all"
+            android:textColor="@color/text"
+            tools:targetApi="p" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="328dp"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear_frame" />
+
+    <TextView
+        android:id="@+id/tv_market_cap"
+        android:layout_width="127dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/roboto"
+        android:letterSpacing="-0.01"
+        android:lineHeight="28sp"
+        android:text="@string/cap"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear_frame"
+        tools:targetApi="p" />
+
+    <TextView
+        android:id="@+id/tv_cap_cost"
+        android:layout_width="117dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/roboto"
+        android:letterSpacing="-0.01"
+        android:lineHeight="28sp"
+        android:textColor="@color/green"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear_frame"
+        tools:targetApi="p" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

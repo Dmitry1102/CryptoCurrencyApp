@@ -8,11 +8,10 @@ import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.playsdev.firsttest.MainActivity
-import com.playsdev.firsttest.coindatabase.Coin
+import com.playsdev.firsttest.data.Coin
 import com.playsdev.firsttest.databinding.ActivitySplashBinding
 import com.playsdev.firsttest.viewmodel.CoinDataBaseViewModel
 import com.playsdev.firsttest.viewmodel.CoinViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 

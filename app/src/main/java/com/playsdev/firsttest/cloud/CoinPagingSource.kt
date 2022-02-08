@@ -3,7 +3,7 @@ package com.playsdev.firsttest.cloud
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.playsdev.firsttest.cloud.CoinService.DEFAULT_PAGE_SIZE
-import com.playsdev.firsttest.coindatabase.Coin
+import com.playsdev.firsttest.data.Coin
 import retrofit2.HttpException
 import java.lang.Exception
 

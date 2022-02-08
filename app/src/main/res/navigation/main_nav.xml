@@ -8,11 +8,22 @@
     <fragment
         android:id="@+id/main_fragment"
         android:name="com.playsdev.testapp.main.MainFragment"
-        tools:layout="@layout/main_fragment"/>
+        tools:layout="@layout/main_fragment">
+        <action
+            android:id="@+id/action_main_fragment_to_detailsFragment"
+            app:destination="@id/details_fragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/settings_fragment"
         android:name="com.playsdev.testapp.settings.SettingsFragment"
-        tools:layout="@layout/settings_fragment"/>
+        tools:layout="@layout/settings_fragment" />
+
+    <fragment
+        android:id="@+id/details_fragment"
+        android:name="com.playsdev.firsttest.details.DetailsFragment"
+        tools:layout="@layout/details_fragment">
+    </fragment>
 
 
 </navigation>

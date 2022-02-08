@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.playsdev.firsttest.coindatabase.Coin
+import com.playsdev.firsttest.data.Coin
 import com.playsdev.firsttest.repository.CoinDataBaseRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

@@ -5,7 +5,9 @@
       <map>
         <entry key="..\:/FirstTest/app/src/main/res/drawable/body_icon.xml" value="0.23072916666666668" />
         <entry key="..\:/FirstTest/app/src/main/res/drawable/button_frame.xml" value="0.21875" />
+        <entry key="..\:/FirstTest/app/src/main/res/drawable/chevron_left_icon_24.xml" value="0.1085" />
         <entry key="..\:/FirstTest/app/src/main/res/drawable/head_icon.xml" value="0.21875" />
+        <entry key="..\:/FirstTest/app/src/main/res/drawable/line.xml" value="0.224" />
         <entry key="..\:/FirstTest/app/src/main/res/drawable/main_icon_selector.xml" value="0.21875" />
         <entry key="..\:/FirstTest/app/src/main/res/drawable/no_connect_96.xml" value="0.21875" />
         <entry key="..\:/FirstTest/app/src/main/res/drawable/photo_icon.xml" value="0.21875" />
@@ -17,6 +19,7 @@
         <entry key="..\:/FirstTest/app/src/main/res/layout-v28/settings_fragment.xml" value="0.20520833333333333" />
         <entry key="..\:/FirstTest/app/src/main/res/layout/activity_main.xml" value="0.18854166666666666" />
         <entry key="..\:/FirstTest/app/src/main/res/layout/activity_splash.xml" value="0.20260416666666667" />
+        <entry key="..\:/FirstTest/app/src/main/res/layout/details_fragment.xml" value="0.21137206427688504" />
         <entry key="..\:/FirstTest/app/src/main/res/layout/item_recyle.xml" value="0.20572916666666666" />
         <entry key="..\:/FirstTest/app/src/main/res/layout/main_fragment.xml" value="0.20260416666666667" />
         <entry key="..\:/FirstTest/app/src/main/res/layout/no_connection_fragment.xml" value="0.20260416666666667" />

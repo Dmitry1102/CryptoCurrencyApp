@@ -6,21 +6,28 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.playsdev.firsttest.coindatabase.Coin
+import com.playsdev.firsttest.data.Coin
 import com.playsdev.firsttest.databinding.ItemRecyleBinding
 
-class CoinAdapter() : PagingDataAdapter<Coin, CoinScheduleViewHolder>(DifUtilItemCallBack()) {
+class CoinAdapter(
+    private val itemClickListener: ItemClickListener
+) : PagingDataAdapter<Coin, CoinScheduleViewHolder>(DifUtilItemCallBack()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinScheduleViewHolder {
         return CoinScheduleViewHolder(
             ItemRecyleBinding.inflate(
-                LayoutInflater.from(parent.context), parent, false
+                LayoutInflater.from(parent.context),
+                parent,
+                false
             )
         )
     }
 
     override fun onBindViewHolder(holder: CoinScheduleViewHolder, position: Int) {
         holder.bind(getItem(position)!!)
+        holder.itemView.setOnClickListener {
+            itemClickListener.onClick(getItem(position)!!)
+        }
     }
 }
 
@@ -39,11 +46,10 @@ class CoinScheduleViewHolder(
     private val binding: ItemRecyleBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: Coin){
+    fun bind(item: Coin) {
         binding.tvName.text = item.id
         binding.tvFullName.text = item.symbol
         binding.tvCost.text = item.current_price.toString()
         binding.ivCoin.load(item.image)
-
     }
 }

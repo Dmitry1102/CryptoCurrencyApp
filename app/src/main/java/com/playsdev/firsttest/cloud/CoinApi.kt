@@ -1,12 +1,7 @@
 package com.playsdev.firsttest.cloud
 
 import com.playsdev.firsttest.cloud.CoinService.DEFAULT_PAGE_SIZE
-import com.playsdev.firsttest.coindatabase.Coin
-import kotlinx.coroutines.flow.Flow
-import okhttp3.OkHttpClient
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.playsdev.firsttest.data.Coin
 import retrofit2.http.GET
 import retrofit2.http.Query
 

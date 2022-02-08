@@ -6,7 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.playsdev.firsttest.cloud.CoinApi
 import com.playsdev.firsttest.cloud.CoinService.DEFAULT_PAGE_SIZE
-import com.playsdev.firsttest.coindatabase.Coin
+import com.playsdev.firsttest.data.Coin
 import com.playsdev.firsttest.coindatabase.CoinDao
 import com.playsdev.firsttest.coindatabase.CoinDataBase
 import com.playsdev.firsttest.mediator.CoinMediator

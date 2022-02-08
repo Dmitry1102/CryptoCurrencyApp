@@ -13,4 +13,5 @@
     <color name="transparent">#00000000</color>
     <color name="base">#CC000000</color>
     <color name="gray_back">#33000000</color>
+    <color name="text">#C4C4C4</color>
 </resources>
