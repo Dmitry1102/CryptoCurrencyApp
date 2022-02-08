@@ -63,6 +63,7 @@ class MainFragment : Fragment(), ItemClickListener {
                     coinAdapter.submitData(it)
                 }
             }
+            binding?.swipeLayout?.isRefreshing = false
         }
 
 

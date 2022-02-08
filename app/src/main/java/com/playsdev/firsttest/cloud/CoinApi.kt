@@ -10,7 +10,7 @@ interface CoinApi {
     @GET("api/v3/coins/markets?vs_currency=usd")
     suspend fun getCoinPageToAdapter(
         @Query("page") page: Int,
-        @Query("per_page") per_page: Int = DEFAULT_PAGE_SIZE
+        @Query("per_page") per_page: Int = DEFAULT_PAGE_SIZE,
     ): List<Coin>
 
     @GET("api/v3/coins/markets?vs_currency=usd")
