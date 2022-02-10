@@ -24,4 +24,7 @@
     <string name="year">1Y</string>
     <string name="all">ALL</string>
     <string name="cap">Market cap</string>
+    <string name="full_name">full_name</string>
+    <string name="cost">cost</string>
+    <string name="image">image</string>
 </resources>

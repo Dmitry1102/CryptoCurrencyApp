@@ -11,9 +11,7 @@ import com.playsdev.firsttest.data.CoinKey
 abstract class CoinDataBase: RoomDatabase() {
     abstract fun coinDao():CoinDao
     abstract fun coinKeyDao(): CoinKeysDao
-
 }
-
 
 object CoinDatabaseConstructor {
 

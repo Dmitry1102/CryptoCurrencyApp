@@ -14,6 +14,14 @@ class CoinViewModel(
         return coinRepository.getCoinToAdapter()
     }
 
+    fun getAlphabeticToAdapter(): Flow<PagingData<Coin>>{
+        return coinRepository.getAlphabeticToAdapter()
+    }
+
+    fun getPriceToAdapter():Flow<PagingData<Coin>>{
+        return coinRepository.getPriceToAdapter()
+    }
+
 
     suspend fun getCoin(): List<Coin> {
         return coinRepository.getCoinList()

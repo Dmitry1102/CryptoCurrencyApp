@@ -7,16 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.playsdev.firsttest.R
 import com.playsdev.firsttest.adapter.CoinAdapter
-import com.playsdev.firsttest.adapter.ItemClickListener
+import com.playsdev.firsttest.adapter.OnClickListener
 import com.playsdev.firsttest.data.Coin
 import com.playsdev.firsttest.databinding.MainFragmentBinding
-import com.playsdev.firsttest.details.DetailsFragment
 import com.playsdev.firsttest.viewmodel.CoinDataBaseViewModel
 import com.playsdev.firsttest.viewmodel.CoinViewModel
 import kotlinx.coroutines.flow.collect
@@ -25,12 +25,23 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
-class MainFragment : Fragment(), ItemClickListener {
+class MainFragment : Fragment() {
 
+    private val coinItemListener = OnClickListener { coin, icon, name, cost ->
+        val direction: NavDirections =
+            MainFragmentDirections.actionMainFragmentToDetailsFragment(coin)
+
+        val extras = FragmentNavigatorExtras(
+            icon to coin.image,
+            name to coin.symbol,
+            cost to coin.current_price.toString()
+        )
+        findNavController().navigate(direction, extras)
+    }
 
     private var binding: MainFragmentBinding? = null
     private val viewModel by inject<CoinViewModel>()
-    private val coinAdapter = CoinAdapter(this)
+    private var coinAdapter = CoinAdapter(coinItemListener)
     private val coinViewModel by inject<CoinDataBaseViewModel>()
 
     override fun onCreateView(
@@ -41,7 +52,6 @@ class MainFragment : Fragment(), ItemClickListener {
         binding = MainFragmentBinding.inflate(inflater, container, false)
         return binding?.root
     }
-
 
     @OptIn(ExperimentalPagingApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,9 +64,6 @@ class MainFragment : Fragment(), ItemClickListener {
             }
         }
 
-
-
-
         binding?.swipeLayout?.setOnRefreshListener {
             lifecycleScope.launch {
                 viewModel.getCoinToAdapter().distinctUntilChanged().collectLatest {
@@ -65,9 +72,6 @@ class MainFragment : Fragment(), ItemClickListener {
             }
             binding?.swipeLayout?.isRefreshing = false
         }
-
-
-
     }
 
     override fun onDestroy() {
@@ -82,8 +86,8 @@ class MainFragment : Fragment(), ItemClickListener {
         val checkedItem = 1
         alertDialog.setSingleChoiceItems(items, checkedItem) { _, which ->
             when (which) {
-                //0 -> sortByPrice(listCoins!!)
-                //1 -> sortAlphabetically(listCoins!!)
+                0 -> sortByPrice()
+                1 -> sortAlphabetically()
             }
         }
         alertDialog.setNegativeButton(CANCEL) { dialog, _ -> dialog.cancel() }
@@ -92,23 +96,26 @@ class MainFragment : Fragment(), ItemClickListener {
     }
 
 
-
-    private fun setAdapter(){
+    private fun setAdapter() {
         binding?.rvCurrency?.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding?.rvCurrency?.adapter = coinAdapter
     }
 
-    private fun sortAlphabetically(list: PagingData<Coin>) {
-       // coinAdapter.submitData()
-    //coinAdapter.submitData(list.sortedBy { it.id })
+    private fun sortAlphabetically() {
+        lifecycleScope.launch {
+            viewModel.getAlphabeticToAdapter().collect {
+                coinAdapter.submitData(it)
+            }
+        }
     }
 
-    private fun sortByPrice(list: MutableList<Coin>) {
-      //  coinAdapter.submitList(list.sortedBy { it.current_price })
-    }
-
-    private fun openDetailsFragment(){
+    private fun sortByPrice() {
+        lifecycleScope.launch {
+            viewModel.getPriceToAdapter().collect {
+                coinAdapter.submitData(it)
+            }
+        }
     }
 
     companion object {
@@ -120,13 +127,4 @@ class MainFragment : Fragment(), ItemClickListener {
     }
 
 
-    override fun onClick(coin: Coin) {
-        val args = Bundle()
-        args.putFloat("current_price", coin.current_price)
-        args.putString("id",coin.id)
-        args.putString("image",coin.image)
-        args.putString("symbol",coin.symbol)
-
-        findNavController().navigate(R.id.details_fragment,args)
-    }
 }

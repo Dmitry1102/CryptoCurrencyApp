@@ -15,6 +15,7 @@
 
         <ImageView
             android:id="@+id/iv_coin"
+            android:transitionName="@string/image"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginStart="16dp"
@@ -37,6 +38,7 @@
             android:id="@+id/tv_full_name"
             android:layout_width="40dp"
             android:layout_height="16dp"
+            android:transitionName="@string/full_name"
             android:layout_marginStart="76dp"
             android:layout_marginTop="45dp"
             android:fontFamily="@font/roboto"
@@ -50,6 +52,7 @@
             android:id="@+id/tv_cost"
             android:layout_width="83dp"
             android:layout_height="21dp"
+            android:transitionName="@string/cost"
             android:layout_marginStart="261dp"
             android:layout_marginTop="30dp"
             android:fontFamily="@font/roboto"

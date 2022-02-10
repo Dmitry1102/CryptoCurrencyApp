@@ -16,6 +16,10 @@ interface CoinApi {
     @GET("api/v3/coins/markets?vs_currency=usd")
     suspend fun getCoinList():List<Coin>
 
+    
+
+
+
 }
 
 

@@ -23,6 +23,9 @@
         android:id="@+id/details_fragment"
         android:name="com.playsdev.firsttest.details.DetailsFragment"
         tools:layout="@layout/details_fragment">
+        <argument
+            android:name="model_args"
+            app:argType="com.playsdev.firsttest.data.Coin"/>
     </fragment>
 
 
