@@ -9,6 +9,7 @@ import com.playsdev.firsttest.cloud.CoinPagingSource
 import com.playsdev.firsttest.cloud.CoinService.DEFAULT_PAGE_SIZE
 import com.playsdev.firsttest.cloud.PricePagingSource
 import com.playsdev.firsttest.data.Coin
+import com.playsdev.firsttest.data.ChartData
 import kotlinx.coroutines.flow.Flow
 
 class CoinRepository(
@@ -41,6 +42,8 @@ class CoinRepository(
             pagingSourceFactory = { PricePagingSource(coinApi) }
         ).flow
     }
+
+     fun getIndexCap(change:String):Flow<ChartData> = coinApi.getIndexCap(change)
 
     suspend fun getCoinList(): List<Coin> = coinApi.getCoinList()
 

@@ -1,8 +1,6 @@
 package com.playsdev.firsttest
 
 import android.app.Application
-import com.playsdev.firsttest.cloud.CoinApi
-import com.playsdev.firsttest.cloud.CoinPagingSource
 import com.playsdev.firsttest.cloud.CoinService
 import com.playsdev.firsttest.coindatabase.CoinDataBase
 import com.playsdev.firsttest.coindatabase.CoinDatabaseConstructor

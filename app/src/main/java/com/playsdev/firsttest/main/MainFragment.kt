@@ -11,11 +11,9 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.paging.ExperimentalPagingApi
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.playsdev.firsttest.adapter.CoinAdapter
 import com.playsdev.firsttest.adapter.OnClickListener
-import com.playsdev.firsttest.data.Coin
 import com.playsdev.firsttest.databinding.MainFragmentBinding
 import com.playsdev.firsttest.viewmodel.CoinDataBaseViewModel
 import com.playsdev.firsttest.viewmodel.CoinViewModel
@@ -50,6 +48,7 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = MainFragmentBinding.inflate(inflater, container, false)
+
         return binding?.root
     }
 
@@ -63,6 +62,7 @@ class MainFragment : Fragment() {
                 coinAdapter.submitData(it)
             }
         }
+
 
         binding?.swipeLayout?.setOnRefreshListener {
             lifecycleScope.launch {

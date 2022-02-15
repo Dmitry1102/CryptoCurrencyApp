@@ -1,11 +1,9 @@
 package com.playsdev.firsttest.cloud
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.playsdev.firsttest.data.Coin
 import retrofit2.HttpException
-import java.lang.Exception
 
 class AlphabeticPagingSource(
     private val coinApi: CoinApi
