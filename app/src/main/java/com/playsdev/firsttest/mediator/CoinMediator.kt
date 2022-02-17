@@ -13,7 +13,6 @@ import retrofit2.HttpException
 import java.io.IOException
 import java.io.InvalidObjectException
 
-
 @ExperimentalPagingApi
 class CoinMediator(
     private val coinApi: CoinApi,
@@ -34,7 +33,6 @@ class CoinMediator(
             val response = coinApi.getCoinPageToAdapter(page, state.config.pageSize)
             val isEndOfList = response.isEmpty()
             coinDataBase.withTransaction {
-                // clear all tables in the database
                 if (loadType == LoadType.REFRESH) {
                     coinDataBase.coinKeyDao().clearCoinKeys()
                     coinDataBase.coinDao().clearInfo()
@@ -71,14 +69,11 @@ class CoinMediator(
             LoadType.PREPEND -> {
                 val remoteKeys = getFirstRemoteKey(state)
                     ?: throw InvalidObjectException("Invalid state, key should not be null")
-                //end of list condition reached
                 remoteKeys.prevKey ?: return MediatorResult.Success(endOfPaginationReached = true)
                 remoteKeys.prevKey
             }
         }
     }
-
-
 
     private suspend fun getLastRemoteKey(state: PagingState<Int, Coin>): CoinKey? {
         return state.pages
@@ -87,14 +82,12 @@ class CoinMediator(
             ?.let { coin -> coinDataBase.coinKeyDao().remoteCoinKeys(coin.id) }
     }
 
-
     private suspend fun getFirstRemoteKey(state: PagingState<Int, Coin>): CoinKey? {
         return state.pages
             .firstOrNull() { it.data.isNotEmpty() }
             ?.data?.firstOrNull()
             ?.let { coin -> coinDataBase.coinKeyDao().remoteCoinKeys(coin.id) }
     }
-
 
     private suspend fun getClosestRemoteKey(state: PagingState<Int, Coin>): CoinKey? {
         return state.anchorPosition?.let { position ->
@@ -107,6 +100,4 @@ class CoinMediator(
     companion object{
         private const val PAGE_INDEX = 1
     }
-
-
 }

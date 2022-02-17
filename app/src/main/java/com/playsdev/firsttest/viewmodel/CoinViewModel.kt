@@ -5,14 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import com.playsdev.firsttest.data.AdditionalData
-import com.playsdev.firsttest.data.Coin
 import com.playsdev.firsttest.data.ChartData
+import com.playsdev.firsttest.data.Coin
 import com.playsdev.firsttest.repository.CoinRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class CoinViewModel(
@@ -32,13 +30,13 @@ class CoinViewModel(
     }
 
     private val chartData = MutableStateFlow(ChartData(listOf(), listOf(), listOf()))
-    private val additionalData:MutableStateFlow<List<AdditionalData>> =
+    private val additionalData: MutableStateFlow<List<AdditionalData>> =
         MutableStateFlow(listOf())
 
     fun getAdditionalInfo() {
         viewModelScope.launch(Dispatchers.IO) {
             additionalData.value = coinRepository.getAdditionalInfo()
-            Log.d("AKL","${additionalData.value}")
+            Log.d("AKL", "${additionalData.value}")
         }
     }
 

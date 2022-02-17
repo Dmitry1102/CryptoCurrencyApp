@@ -1,22 +1,17 @@
 package com.playsdev.firsttest.adapter
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.navigation.fragment.FragmentNavigator
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.playsdev.firsttest.data.Coin
 import com.playsdev.firsttest.databinding.ItemRecyleBinding
-import java.math.BigDecimal
 import java.math.RoundingMode
-import kotlin.math.round
 
 class CoinAdapter(
     private val onClickListener: OnClickListener
@@ -58,7 +53,6 @@ class CoinScheduleViewHolder(
     fun bind(item: Coin, onClickListener: OnClickListener) {
         binding.tvName.text = item.id
         binding.tvFullName.text = item.symbol
-
         if(item.current_price >= 1 ){
 
             binding.tvCost.text = item.current_price.toString().plus(" $")
@@ -71,7 +65,6 @@ class CoinScheduleViewHolder(
             onClickListener.onClick(item,binding.ivCoin,binding.tvFullName,binding.tvCost)
         }
     }
-
 }
 
 class OnClickListener(val clickListener: (Coin, ImageView, TextView,TextView) -> Unit) {

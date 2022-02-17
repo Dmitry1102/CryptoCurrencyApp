@@ -13,9 +13,9 @@ import kotlinx.coroutines.launch
 
 class CoinDataBaseViewModel(
     private val coinDataBaseRepository: CoinDataBaseRepository
-): ViewModel() {
+) : ViewModel() {
 
-    fun addToDataBase(coin: List<Coin>){
+    fun addToDataBase(coin: List<Coin>) {
         viewModelScope.launch(Dispatchers.IO) {
             coinDataBaseRepository.addToDataBase(coin)
         }
@@ -25,8 +25,6 @@ class CoinDataBaseViewModel(
     fun getCoinList(): Flow<PagingData<Coin>> {
         return coinDataBaseRepository.getCoinFromDataBase().cachedIn(viewModelScope)
     }
-
-
 
 
 }

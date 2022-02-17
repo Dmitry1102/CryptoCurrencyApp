@@ -19,77 +19,73 @@ import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.coroutineScope
+import androidx.viewbinding.ViewBinding
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.playsdev.firsttest.BaseFragment
 import com.playsdev.firsttest.databinding.SettingsFragmentBinding
 import com.playsdev.firsttest.persondatabase.Person
 import com.playsdev.firsttest.viewmodel.PersonDataViewModel
 import kotlinx.coroutines.flow.collectLatest
-import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class SettingsFragment : Fragment() {
+class SettingsFragment : BaseFragment<SettingsFragmentBinding>() {
 
-    private var binding: SettingsFragmentBinding? = null
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            val name = binding?.editTextName?.text?.trim()?.toString()!!
-            val surname = binding?.editSurname?.text?.trim()?.toString()!!
-            binding?.btnSave?.isEnabled = inputCheck(name, surname)
+            val name = binding.editTextName.text?.trim()?.toString()!!
+            val surname = binding.editSurname.text?.trim()?.toString()!!
+            binding.btnSave.isEnabled = inputCheck(name, surname)
         }
 
         override fun afterTextChanged(p0: Editable?) {}
     }
-    private val viewModel by inject<PersonDataViewModel>()
+    private val viewModel: PersonDataViewModel by viewModel()
     private var photoSelectResultLauncher: ActivityResultLauncher<Intent>? = null
     private var takePhotoResultLauncher: ActivityResultLauncher<Intent>? = null
     private var photoFile: File? = null
     private var bitmap: Bitmap? = null
     private var personCheck: Person? = null
 
-
-    override fun onCreateView(
+    override fun initBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = SettingsFragmentBinding.inflate(inflater, container, false)
-        return binding?.root
-    }
+        container: ViewGroup
+    ): SettingsFragmentBinding = SettingsFragmentBinding.
+        inflate(inflater, container, false)
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         pickDate()
-        binding?.editTextName?.addTextChangedListener(textWatcher)
-        binding?.editSurname?.addTextChangedListener(textWatcher)
-        binding?.editTextDate?.addTextChangedListener(textWatcher)
+        binding.editTextName.addTextChangedListener(textWatcher)
+        binding.editSurname.addTextChangedListener(textWatcher)
+        binding.editTextDate.addTextChangedListener(textWatcher)
 
-        binding?.btnSave?.setOnClickListener {
+        binding.btnSave.setOnClickListener {
             addToDataBase()
         }
-
 
         viewLifecycleOwner.lifecycle.coroutineScope.launchWhenCreated {
             viewModel.setPerson.collectLatest {
                 personCheck = it
-                if (personCheck != null){
+                if (personCheck != null) {
                     fillFields(personCheck!!)
-                    binding?.editTextName?.isEnabled = false
-                    binding?.editTextDate?.isEnabled = false
-                    binding?.editSurname?.isEnabled = false
-                    binding?.btnSave?.isEnabled = false
-                    binding?.ivPhoto?.isEnabled = false
+                    binding.editTextName.isEnabled = false
+                    binding.editTextDate.isEnabled = false
+                    binding.editSurname.isEnabled = false
+                    binding.btnSave.isEnabled = false
+                    binding.ivPhoto.isEnabled = false
                 }
             }
         }
 
-
         val items = arrayOf(FIRST_OPTION, SECOND_OPTION)
-        binding?.ivPhoto?.setOnClickListener {
+        binding.ivPhoto.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle(DIALOG_HEADER)
                 .setItems(items) { _, which ->
@@ -110,7 +106,7 @@ class SettingsFragment : Fragment() {
                         248,
                         false
                     )
-                    binding?.ivPhotoFrame?.setImageBitmap(bitmap)
+                    binding.ivPhotoFrame.setImageBitmap(bitmap)
                 }
             }
 
@@ -124,19 +120,16 @@ class SettingsFragment : Fragment() {
                         248,
                         false
                     )
-                    binding?.ivPhotoFrame?.setImageBitmap(bitmap)
+                    binding.ivPhotoFrame.setImageBitmap(bitmap)
                 }
             }
-
-
     }
 
     private fun addToDataBase() {
-        val name = binding?.editTextName?.text.toString()
-        val surname = binding?.editSurname?.text.toString()
-        val date = binding?.editTextDate?.text.toString()
+        val name = binding.editTextName.text.toString()
+        val surname = binding.editSurname.text.toString()
+        val date = binding.editTextDate.text.toString()
         val person = Person(name = name, surname = surname, date = date, image = bitmap!!)
-        Log.e("AAA", "$person")
 
         try {
             if (inputCheck(name, surname)) {
@@ -154,10 +147,10 @@ class SettingsFragment : Fragment() {
             .setTitleText("Select Date")
         val materialDatePicker = builder.build()
 
-        binding?.editTextDate?.setOnClickListener {
+        binding.editTextDate.setOnClickListener {
             materialDatePicker.show(childFragmentManager, OPEN_TAG)
             materialDatePicker.addOnPositiveButtonClickListener { selection ->
-                binding?.editTextDate?.setText(convertDate(selection))
+                binding.editTextDate.setText(convertDate(selection))
             }
         }
     }
@@ -193,20 +186,14 @@ class SettingsFragment : Fragment() {
     }
 
     private fun fillFields(person: Person) {
-        binding?.editTextName?.setText(person.name)
-        binding?.editSurname?.setText(person.surname)
-        binding?.editTextDate?.setText(person.date)
-        binding?.ivPhotoFrame?.setImageBitmap(person.image)
+        binding.editTextName.setText(person.name)
+        binding.editSurname.setText(person.surname)
+        binding.editTextDate.setText(person.date)
+        binding.ivPhotoFrame.setImageBitmap(person.image)
     }
 
     private fun inputCheck(name: String, surname: String): Boolean {
         return surname.isNotEmpty() && name.isNotEmpty()
-    }
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-        binding = null
     }
 
 

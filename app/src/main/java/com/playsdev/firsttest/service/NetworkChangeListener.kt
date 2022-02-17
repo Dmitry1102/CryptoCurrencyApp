@@ -6,18 +6,14 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import androidx.annotation.RequiresApi
 import com.playsdev.firsttest.R
 import kotlinx.coroutines.DelicateCoroutinesApi
-import org.koin.experimental.property.inject
 
 @DelicateCoroutinesApi
 class NetworkChangeListener() : BroadcastReceiver() {
-
-    private val checkInternet = CheckInternet()
 
     @RequiresApi(Build.VERSION_CODES.M)
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
@@ -29,6 +25,7 @@ class NetworkChangeListener() : BroadcastReceiver() {
             builder.setView(layout)
             val retryButton = layout.findViewById<Button>(R.id.btn_again)
             val dialog = builder.create()
+            val checkInternet = CheckInternet()
             dialog.setCancelable(checkInternet.isOnline(context))
 
             if (intent.getStringExtra("internet_status") == "false") {

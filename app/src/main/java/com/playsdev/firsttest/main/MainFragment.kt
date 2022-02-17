@@ -11,7 +11,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.paging.ExperimentalPagingApi
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.playsdev.firsttest.BaseFragment
 import com.playsdev.firsttest.adapter.CoinAdapter
 import com.playsdev.firsttest.adapter.OnClickListener
 import com.playsdev.firsttest.databinding.MainFragmentBinding
@@ -21,14 +21,14 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.viewModel
 
-class MainFragment : Fragment() {
+@ExperimentalPagingApi
+class MainFragment : BaseFragment<MainFragmentBinding>() {
 
     private val coinItemListener = OnClickListener { coin, icon, name, cost ->
         val direction: NavDirections =
             MainFragmentDirections.actionMainFragmentToDetailsFragment(coin)
-
         val extras = FragmentNavigatorExtras(
             icon to coin.image,
             name to coin.symbol,
@@ -37,25 +37,18 @@ class MainFragment : Fragment() {
         findNavController().navigate(direction, extras)
     }
 
-    private var binding: MainFragmentBinding? = null
-    private val viewModel by inject<CoinViewModel>()
+    private val viewModel: CoinViewModel by viewModel()
+    private val coinViewModel: CoinDataBaseViewModel by viewModel()
     private var coinAdapter = CoinAdapter(coinItemListener)
-    private val coinViewModel by inject<CoinDataBaseViewModel>()
 
-    override fun onCreateView(
+    override fun initBinding(
         inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = MainFragmentBinding.inflate(inflater, container, false)
+        container: ViewGroup
+    ): MainFragmentBinding? = MainFragmentBinding.inflate(inflater,container,false)
 
-        return binding?.root
-    }
-
-    @OptIn(ExperimentalPagingApi::class)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding?.ivSort?.setOnClickListener { makeDialogFragment() }
+        binding.ivSort.setOnClickListener { makeDialogFragment() }
         setAdapter()
         lifecycleScope.launch {
             coinViewModel.getCoinList().collect {
@@ -63,20 +56,14 @@ class MainFragment : Fragment() {
             }
         }
 
-
-        binding?.swipeLayout?.setOnRefreshListener {
+        binding.swipeLayout.setOnRefreshListener {
             lifecycleScope.launch {
                 viewModel.getCoinToAdapter().distinctUntilChanged().collectLatest {
                     coinAdapter.submitData(it)
                 }
             }
-            binding?.swipeLayout?.isRefreshing = false
+            binding.swipeLayout.isRefreshing = false
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        binding = null
     }
 
     private fun makeDialogFragment() {
@@ -95,11 +82,8 @@ class MainFragment : Fragment() {
         alertDialog.show()
     }
 
-
     private fun setAdapter() {
-        binding?.rvCurrency?.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        binding?.rvCurrency?.adapter = coinAdapter
+        binding.rvCurrency.adapter = coinAdapter
     }
 
     private fun sortAlphabetically() {
@@ -125,6 +109,13 @@ class MainFragment : Fragment() {
         private const val SECOND_OPTION = "Alphabetically"
         private const val SORT_HEADER = "Sort"
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.rvCurrency.adapter = null
+    }
+
+
 
 
 }

@@ -39,11 +39,13 @@ object ChartService {
         lineDataSet.setColors(R.color.orange)
         lineDataSet.lineWidth = 3f
         lineDataSet.setDrawFilled(false)
+        lineDataSet.disableDashedLine()
 
         val data = LineData(lineDataSet)
         lineChart.data = data
 
         lineChart.invalidate()
     }
+
 
 }

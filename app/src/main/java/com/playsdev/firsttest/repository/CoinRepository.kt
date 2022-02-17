@@ -10,7 +10,6 @@ import com.playsdev.firsttest.cloud.CoinService.DEFAULT_PAGE_SIZE
 import com.playsdev.firsttest.cloud.PricePagingSource
 import com.playsdev.firsttest.data.AdditionalData
 import com.playsdev.firsttest.data.Coin
-import com.playsdev.firsttest.data.ChartData
 import kotlinx.coroutines.flow.Flow
 
 class CoinRepository(

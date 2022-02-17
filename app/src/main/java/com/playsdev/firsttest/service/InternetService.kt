@@ -1,22 +1,15 @@
 package com.playsdev.firsttest.service
 
 import android.app.Service
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
-import android.net.ConnectivityManager
 import android.os.Build
-import android.os.Handler
 import android.os.IBinder
-import android.os.Looper
-import android.util.Log
 import androidx.annotation.RequiresApi
-import com.playsdev.firsttest.MainActivity
-import kotlinx.coroutines.*
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import org.koin.core.component.KoinApiExtension
-import org.koin.core.component.KoinComponent
 
 
 @DelicateCoroutinesApi
@@ -33,7 +26,6 @@ class InternetService : Service() {
             checkConnection()
         }
         return START_STICKY
-
     }
 
     @RequiresApi(Build.VERSION_CODES.M)

@@ -15,7 +15,6 @@ android {
         targetSdk 31
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -35,8 +34,6 @@ android {
     buildFeatures {
         viewBinding = true
     }
-
-
 }
 
 dependencies {
@@ -82,7 +79,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2'
 
     //coil
-    implementation"io.coil-kt:coil:1.4.0"
+    implementation "io.coil-kt:coil:1.4.0"
 
     //swiperefreshlayout
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
@@ -95,5 +92,5 @@ dependencies {
     //chart-library
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
-    
+
 }

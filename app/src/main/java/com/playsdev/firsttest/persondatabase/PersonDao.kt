@@ -10,6 +10,5 @@ interface PersonDao {
     suspend fun insertPerson(person: Person)
 
     @Query("SELECT * FROM person_table ORDER BY name ASC ")
-    fun setPerson():Flow<Person>
-
+    fun setPerson(): Flow<Person>
 }

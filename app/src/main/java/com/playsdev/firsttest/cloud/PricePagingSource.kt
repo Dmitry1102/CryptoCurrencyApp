@@ -8,7 +8,7 @@ import java.lang.Exception
 
 class PricePagingSource(
     private val coinApi: CoinApi
-): PagingSource<Int, Coin>() {
+) : PagingSource<Int, Coin>() {
     override fun getRefreshKey(state: PagingState<Int, Coin>): Int? {
         val anchorPosition = state.anchorPosition ?: return null
         val page = state.closestPageToPosition(anchorPosition) ?: return null
@@ -32,7 +32,7 @@ class PricePagingSource(
         }
     }
 
-    companion object{
+    companion object {
         private const val PAGE_INDEX = 1
     }
 }

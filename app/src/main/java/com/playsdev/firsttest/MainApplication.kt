@@ -1,6 +1,8 @@
 package com.playsdev.firsttest
 
 import android.app.Application
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.playsdev.firsttest.cloud.CoinService
 import com.playsdev.firsttest.coindatabase.CoinDataBase
 import com.playsdev.firsttest.coindatabase.CoinDatabaseConstructor
@@ -27,11 +29,12 @@ import org.koin.dsl.module
 @KoinApiExtension
 class MainApplication: Application(), KoinComponent {
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate() {
         super.onCreate()
         startKoin {
             androidContext(this@MainApplication)
-            modules(listOf(repository,viewModels,cloudModule,internet,storageModule))
+            modules(listOf(repository,service,viewModels,cloudModule,internet,storageModule))
         }
     }
 
@@ -41,6 +44,9 @@ class MainApplication: Application(), KoinComponent {
         factory { CoinDataBaseRepository(get(),get(),get()) }
     }
 
+    private val service = module {
+        factory { ChartService }
+    }
 
     private val viewModels = module {
         viewModel { PersonDataViewModel(get()) }
@@ -52,9 +58,10 @@ class MainApplication: Application(), KoinComponent {
         factory { CoinService.apiService() }
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     private val internet = module {
-        single { CheckInternet() }
-        single { NetworkChangeListener() }
+        factory { CheckInternet() }
+        factory { NetworkChangeListener() }
     }
 
     private val storageModule = module {
@@ -64,6 +71,4 @@ class MainApplication: Application(), KoinComponent {
         factory { get<CoinDataBase>().coinDao() }
         factory { get<CoinDataBase>().coinKeyDao() }
     }
-
-
 }

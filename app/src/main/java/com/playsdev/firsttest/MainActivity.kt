@@ -16,32 +16,27 @@ import org.koin.android.ext.android.inject
 
 @DelicateCoroutinesApi
 class MainActivity : AppCompatActivity() {
+
     private val networkChangeListener: NetworkChangeListener by inject()
-
-    private var binding: ActivityMainBinding? = null
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
     private var intentFilter: IntentFilter? = null
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding?.root)
-
-
-        val layout = binding?.collapsingToolbarLayout
-        val toolbar = binding?.toolbar
+        _binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        val layout = binding.collapsingToolbarLayout
+        val toolbar = binding.toolbar
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.screen_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         val appBarConfiguration = AppBarConfiguration(navController.graph)
-        layout?.setupWithNavController(toolbar!!,navController,appBarConfiguration)
-        binding?.bottomNav?.setupWithNavController(navController)
+        layout.setupWithNavController(toolbar,navController,appBarConfiguration)
+        binding.bottomNav.setupWithNavController(navController)
 
         intentFilter = IntentFilter()
         intentFilter!!.addAction(CHECK_ACTION)
         startService(Intent(this, InternetService::class.java))
-
-
     }
 
     override fun onRestart() {
@@ -61,6 +56,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        binding = null
+        _binding = null
     }
 }

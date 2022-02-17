@@ -25,15 +25,12 @@ interface CoinApi {
     @GET("api/v3/coins/{id}/market_chart?vs_currency=usd&days=30&interval=daily")
     suspend fun getIndexCap(
         @Path("id") name: String,
-        @Query("days") days:String,
+        @Query("days") days: String,
         @Query("interval") interval: String
     ): ChartData
 
     @GET("api/v3/coins/markets?vs_currency=usd")
-    suspend fun getCoinList():List<Coin>
-
-    
-
+    suspend fun getCoinList(): List<Coin>
 
 
 }
