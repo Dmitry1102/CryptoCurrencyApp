@@ -19,10 +19,9 @@ import org.koin.core.component.KoinApiExtension
 import org.koin.core.component.KoinComponent
 
 
-
 @DelicateCoroutinesApi
-class InternetService : Service(){
-    private val checkInternet:CheckInternet by inject()
+class InternetService : Service() {
+    private val checkInternet: CheckInternet by inject()
 
     override fun onBind(p0: Intent?): IBinder? {
         return null
@@ -32,7 +31,6 @@ class InternetService : Service(){
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         GlobalScope.launch {
             checkConnection()
-            Log.d("AAA","${checkConnection()}")
         }
         return START_STICKY
 
@@ -40,11 +38,17 @@ class InternetService : Service(){
 
     @RequiresApi(Build.VERSION_CODES.M)
     private suspend fun checkConnection() {
-        val broadcastIntent = Intent()
-        broadcastIntent.action = CHECK_ACTION
-        broadcastIntent.putExtra("internet_status", "${checkInternet.isOnline(this@InternetService)}")
-        delay(TIME_CHECK)
-        sendBroadcast(broadcastIntent)
+        while (true) {
+            delay(TIME_CHECK)
+            val broadcastIntent = Intent()
+            broadcastIntent.action = CHECK_ACTION
+            broadcastIntent.putExtra(
+                "internet_status",
+                "${checkInternet.isOnline(this@InternetService)}"
+            )
+            sendBroadcast(broadcastIntent)
+        }
+
     }
 
     companion object {

@@ -17,20 +17,14 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.coroutineScope
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.playsdev.firsttest.databinding.SettingsFragmentBinding
 import com.playsdev.firsttest.persondatabase.Person
 import com.playsdev.firsttest.viewmodel.PersonDataViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.text.SimpleDateFormat
@@ -82,7 +76,6 @@ class SettingsFragment : Fragment() {
         viewLifecycleOwner.lifecycle.coroutineScope.launchWhenCreated {
             viewModel.setPerson.collectLatest {
                 personCheck = it
-                Log.d("FFF", "$it")
                 if (personCheck != null){
                     fillFields(personCheck!!)
                     binding?.editTextName?.isEnabled = false

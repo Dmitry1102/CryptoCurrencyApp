@@ -16,7 +16,6 @@ import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 @SuppressLint("CustomSplashScreen")
-
 class SplashActivity : AppCompatActivity() {
 
     private val viewModel by inject<CoinViewModel>()
@@ -51,7 +50,6 @@ class SplashActivity : AppCompatActivity() {
 
     companion object {
         private const val DURATION: Long = 1000
-        const val LIST_TAG = "LIST_TAG"
     }
 
 

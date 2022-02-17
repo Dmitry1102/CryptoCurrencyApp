@@ -8,6 +8,7 @@ import com.playsdev.firsttest.cloud.CoinApi
 import com.playsdev.firsttest.cloud.CoinPagingSource
 import com.playsdev.firsttest.cloud.CoinService.DEFAULT_PAGE_SIZE
 import com.playsdev.firsttest.cloud.PricePagingSource
+import com.playsdev.firsttest.data.AdditionalData
 import com.playsdev.firsttest.data.Coin
 import com.playsdev.firsttest.data.ChartData
 import kotlinx.coroutines.flow.Flow
@@ -43,7 +44,10 @@ class CoinRepository(
         ).flow
     }
 
-     fun getIndexCap(change:String):Flow<ChartData> = coinApi.getIndexCap(change)
+    suspend fun getAdditionalInfo(): List<AdditionalData> = coinApi.getAdditionalInfo()
+
+
+    suspend fun getIndexCap(name:String, days:String, interval: String) = coinApi.getIndexCap(name,days,interval)
 
     suspend fun getCoinList(): List<Coin> = coinApi.getCoinList()
 

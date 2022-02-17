@@ -85,7 +85,7 @@
         android:letterSpacing="0.01"
         android:lineHeight="14sp"
         android:text="@string/cancel"
-        android:textColor="@color/gray"
+        android:textColor="@color/grey"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -30,7 +30,6 @@ class AlphabeticPagingSource(
         } catch (e: Exception) {
             return LoadResult.Error(e)
         }
-
     }
 
     companion object{

@@ -4,6 +4,7 @@ import android.app.Application
 import com.playsdev.firsttest.cloud.CoinService
 import com.playsdev.firsttest.coindatabase.CoinDataBase
 import com.playsdev.firsttest.coindatabase.CoinDatabaseConstructor
+import com.playsdev.firsttest.details.ChartService
 import com.playsdev.firsttest.persondatabase.PersonDataBase
 import com.playsdev.firsttest.persondatabase.PersonDatabaseConstructor
 import com.playsdev.firsttest.repository.CoinDataBaseRepository
@@ -14,6 +15,7 @@ import com.playsdev.firsttest.service.NetworkChangeListener
 import com.playsdev.firsttest.viewmodel.CoinDataBaseViewModel
 import com.playsdev.firsttest.viewmodel.CoinViewModel
 import com.playsdev.firsttest.viewmodel.PersonDataViewModel
+import kotlinx.coroutines.DelicateCoroutinesApi
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.component.KoinApiExtension
@@ -21,6 +23,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
+@DelicateCoroutinesApi
 @KoinApiExtension
 class MainApplication: Application(), KoinComponent {
 
@@ -37,6 +40,7 @@ class MainApplication: Application(), KoinComponent {
         factory { CoinRepository(get()) }
         factory { CoinDataBaseRepository(get(),get(),get()) }
     }
+
 
     private val viewModels = module {
         viewModel { PersonDataViewModel(get()) }

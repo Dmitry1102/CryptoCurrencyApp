@@ -9,10 +9,12 @@
     <color name="white">#FFFFFFFF</color>
     <color name="green">#2ED25C</color>
     <color name="white_item">#FFFFFFFF</color>
-    <color name="gray">#979797</color>
+    <color name="grey">#979797</color>
     <color name="transparent">#00000000</color>
     <color name="base">#CC000000</color>
     <color name="gray_back">#33000000</color>
     <color name="text">#C4C4C4</color>
     <color name="red">#E81313</color>
+    <color name="blue">#14BDF1</color>
+    <color name="orange">#E8961C</color>
 </resources>

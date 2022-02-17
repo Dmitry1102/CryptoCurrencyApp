@@ -1,5 +1,6 @@
 package com.playsdev.firsttest.adapter
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.playsdev.firsttest.data.Coin
 import com.playsdev.firsttest.databinding.ItemRecyleBinding
+import java.math.BigDecimal
+import java.math.RoundingMode
+import kotlin.math.round
 
 class CoinAdapter(
     private val onClickListener: OnClickListener
@@ -50,10 +54,18 @@ class CoinScheduleViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
 
-    fun bind(item: Coin,onClickListener: OnClickListener) {
+    @SuppressLint("SetTextI18n")
+    fun bind(item: Coin, onClickListener: OnClickListener) {
         binding.tvName.text = item.id
         binding.tvFullName.text = item.symbol
-        binding.tvCost.text = item.current_price.toString()
+
+        if(item.current_price >= 1 ){
+
+            binding.tvCost.text = item.current_price.toString().plus(" $")
+        }else{
+            val decimal = item.current_price.toBigDecimal().setScale(5,RoundingMode.HALF_EVEN)
+            binding.tvCost.text = decimal.toString().plus(" $")
+        }
         binding.ivCoin.load(item.image)
         itemView.setOnClickListener {
             onClickListener.onClick(item,binding.ivCoin,binding.tvFullName,binding.tvCost)

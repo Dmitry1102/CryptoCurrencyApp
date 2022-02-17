@@ -6,76 +6,52 @@
     android:layout_height="match_parent">
 
     <FrameLayout
-        android:id="@+id/frame"
-        android:layout_width="0dp"
+        android:id="@+id/frame_layout"
+        android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@color/green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
         <ImageView
             android:id="@+id/iv_back"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="21dp"
+            android:layout_marginTop="16dp"
             android:src="@drawable/chevron_left_icon_24" />
 
         <ImageView
             android:id="@+id/iv_icon"
             android:layout_width="24dp"
-            android:transitionName="@string/image"
             android:layout_height="24dp"
             android:layout_marginStart="64dp"
-            android:layout_marginTop="21dp" />
+            android:layout_marginTop="16dp"
+            android:transitionName="@string/image" />
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="249dp"
             android:layout_height="24dp"
             android:layout_marginStart="106dp"
-            android:layout_marginTop="21dp"
-            android:transitionName="@string/full_name"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/roboto"
             android:letterSpacing="0.01"
             android:lineHeight="24sp"
             android:textColor="@color/white"
             android:textSize="20sp"
+            android:transitionName="@string/full_name"
             tools:targetApi="p" />
+
     </FrameLayout>
-
-
-    <ProgressBar
-        android:id="@+id/horizontal_bar"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/frame"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="63dp" />
-
-    <TextView
-        android:id="@+id/tv_currency"
-        android:layout_width="178dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="24dp"
-        android:transitionName="@string/cost"
-        android:fontFamily="@font/roboto"
-        android:letterSpacing="-0.01"
-        android:lineHeight="42sp"
-        android:textColor="@color/black"
-        android:textSize="36sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frame"
-        app:layout_constraintVertical_bias="1.0"
-        tools:targetApi="p" />
 
     <TextView
         android:id="@+id/tv_currency_percent"
-        android:layout_width="72dp"
+        android:layout_width="102dp"
         android:layout_height="19dp"
+        android:gravity="center"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/roboto"
         android:letterSpacing="-0.02"
@@ -87,29 +63,64 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_currency"
         tools:targetApi="p" />
 
-    <FrameLayout
-        android:id="@+id/frame_chart"
-        android:layout_width="match_parent"
-        android:layout_height="132dp"
-        android:layout_marginTop="17dp"
+    <TextView
+        android:id="@+id/tv_max"
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="572dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.87"
+        app:layout_constraintStart_toEndOf="@+id/tv_currency_percent" />
+
+    <TextView
+        android:id="@+id/tv_market_cap"
+        android:layout_width="127dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/roboto"
+        android:letterSpacing="-0.01"
+        android:lineHeight="28sp"
+        android:text="@string/cap"
+        android:textColor="@color/black"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_currency_percent" >
+        app:layout_constraintTop_toBottomOf="@+id/linear_frame"
+        tools:targetApi="p" />
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/line_chart"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </com.github.mikephil.charting.charts.LineChart>
+    <TextView
+        android:id="@+id/tv_cap_cost"
+        android:layout_width="117dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/roboto"
+        android:letterSpacing="-0.01"
+        android:lineHeight="28sp"
+        android:textColor="@color/green"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linear_frame"
+        tools:targetApi="p" />
 
-    </FrameLayout>
+    <TextView
+        android:id="@+id/tv_min"
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frame_chart" />
 
     <LinearLayout
         android:id="@+id/linear_frame"
         android:layout_width="match_parent"
         android:layout_height="75dp"
+        android:layout_marginTop="32dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frame_chart">
 
@@ -177,7 +188,27 @@
             android:text="@string/all"
             android:textColor="@color/text"
             tools:targetApi="p" />
+
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_currency"
+        android:layout_width="260dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="84dp"
+        android:fontFamily="@font/roboto"
+        android:gravity="center"
+        android:letterSpacing="-0.01"
+        android:lineHeight="42sp"
+        android:textColor="@color/black"
+        android:textSize="36sp"
+        android:transitionName="@string/cost"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toTopOf="@id/frame_layout"
+        tools:targetApi="p" />
 
     <View
         android:id="@+id/line"
@@ -185,38 +216,38 @@
         android:layout_height="1dp"
         android:background="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linear_frame" />
 
-    <TextView
-        android:id="@+id/tv_market_cap"
-        android:layout_width="127dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/roboto"
-        android:letterSpacing="-0.01"
-        android:lineHeight="28sp"
-        android:text="@string/cap"
-        android:textColor="@color/black"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear_frame"
-        tools:targetApi="p" />
-
-    <TextView
-        android:id="@+id/tv_cap_cost"
-        android:layout_width="117dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:fontFamily="@font/roboto"
-        android:letterSpacing="-0.01"
-        android:lineHeight="28sp"
-        android:textColor="@color/green"
-        android:textSize="24sp"
+    <FrameLayout
+        android:id="@+id/frame_chart"
+        android:layout_width="match_parent"
+        android:layout_height="132dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linear_frame"
-        tools:targetApi="p" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_currency_percent">
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/line_chart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:progress="0"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frame_layout" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
