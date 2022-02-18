@@ -22,6 +22,7 @@ import androidx.lifecycle.coroutineScope
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.playsdev.firsttest.BaseFragment
 import com.playsdev.firsttest.databinding.SettingsFragmentBinding
 import com.playsdev.firsttest.persondatabase.Person
@@ -68,6 +69,7 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>() {
 
         binding.btnSave.setOnClickListener {
             addToDataBase()
+
         }
 
         viewLifecycleOwner.lifecycle.coroutineScope.launchWhenCreated {
@@ -134,10 +136,10 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>() {
         try {
             if (inputCheck(name, surname)) {
                 viewModel.addPerson(person)
-                Toast.makeText(context, PERSON_ADD, Toast.LENGTH_LONG).show()
+                Snackbar.make(binding.settingsFragment, PERSON_ADD, Snackbar.LENGTH_LONG).show()
             }
         } catch (e: Exception) {
-            Toast.makeText(context, "exception found $e", Toast.LENGTH_LONG).show()
+            Snackbar.make(binding.settingsFragment, "exception found $e", Snackbar.LENGTH_LONG).show()
         }
     }
 
@@ -146,7 +148,6 @@ class SettingsFragment : BaseFragment<SettingsFragmentBinding>() {
         val builder = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Select Date")
         val materialDatePicker = builder.build()
-
         binding.editTextDate.setOnClickListener {
             materialDatePicker.show(childFragmentManager, OPEN_TAG)
             materialDatePicker.addOnPositiveButtonClickListener { selection ->
