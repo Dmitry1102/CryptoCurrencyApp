@@ -3,9 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/background"
-    android:background="@drawable/splash_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".">
+    tools:context="com.playsdev.testapp.splash.SplashActivity">
+
+
+    <ImageView
+        android:id="@+id/iv_splash"
+        android:layout_width="141dp"
+        android:layout_height="150dp"
+        android:src="@drawable/avd_anim"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

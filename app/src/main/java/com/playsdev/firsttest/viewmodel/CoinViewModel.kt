@@ -36,7 +36,6 @@ class CoinViewModel(
     fun getAdditionalInfo() {
         viewModelScope.launch(Dispatchers.IO) {
             additionalData.value = coinRepository.getAdditionalInfo()
-            Log.d("AKL", "${additionalData.value}")
         }
     }
 

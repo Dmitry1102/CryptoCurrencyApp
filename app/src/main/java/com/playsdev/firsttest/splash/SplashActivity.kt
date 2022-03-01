@@ -2,14 +2,19 @@ package com.playsdev.testapp.splash
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.drawable.Animatable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.playsdev.firsttest.MainActivity
+import com.playsdev.firsttest.R
 import com.playsdev.firsttest.data.Coin
 import com.playsdev.firsttest.databinding.ActivitySplashBinding
 import com.playsdev.firsttest.viewmodel.CoinDataBaseViewModel
@@ -23,6 +28,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class SplashActivity : AppCompatActivity() {
 
     private val viewModel: CoinViewModel by viewModel()
+    private lateinit var animation: Animation
     private var _binding: ActivitySplashBinding? = null
     private val binding get() = _binding!!
     private var listCoin: List<Coin>? = null
@@ -32,9 +38,12 @@ class SplashActivity : AppCompatActivity() {
         _binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val intent = Intent(applicationContext, MainActivity::class.java)
+        val drawable = binding.ivSplash.drawable
+        (drawable as Animatable).start()
 
         lifecycleScope.launch(Dispatchers.IO) {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
+
                 listCoin = viewModel.getCoin()
                 delay(DURATION)
                 addToDataBase(listCoin!!)
@@ -53,7 +62,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val DURATION: Long = 3000
+        private const val DURATION: Long = 1200
     }
 
 

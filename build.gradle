@@ -4,6 +4,7 @@ buildscript {
         google()
         mavenCentral()
         maven { url 'https://jitpack.io' }
+
     }
     dependencies {
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5"
@@ -18,3 +19,4 @@ buildscript {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+

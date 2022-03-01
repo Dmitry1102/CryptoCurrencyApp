@@ -1,12 +1,15 @@
 package com.playsdev.testapp.main
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
@@ -44,22 +47,28 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
     override fun initBinding(
         inflater: LayoutInflater,
         container: ViewGroup
-    ): MainFragmentBinding? = MainFragmentBinding.inflate(inflater,container,false)
+    ): MainFragmentBinding = MainFragmentBinding.inflate(inflater, container, false)
 
+    @SuppressLint("UnsafeRepeatOnLifecycleDetector")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.ivSort.setOnClickListener { makeDialogFragment() }
         setAdapter()
         lifecycleScope.launch {
-            coinViewModel.getCoinList().collect {
-                coinAdapter.submitData(it)
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                coinViewModel.getCoinList().collect {
+                    coinAdapter.submitData(it)
+                }
+
             }
         }
 
         binding.swipeLayout.setOnRefreshListener {
             lifecycleScope.launch {
-                viewModel.getCoinToAdapter().distinctUntilChanged().collectLatest {
-                    coinAdapter.submitData(it)
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.getCoinToAdapter().distinctUntilChanged().collectLatest {
+                        coinAdapter.submitData(it)
+                    }
                 }
             }
             binding.swipeLayout.isRefreshing = false
@@ -114,8 +123,6 @@ class MainFragment : BaseFragment<MainFragmentBinding>() {
         super.onDestroyView()
         binding.rvCurrency.adapter = null
     }
-
-
 
 
 }

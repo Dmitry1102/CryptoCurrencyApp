@@ -11,4 +11,5 @@ interface PersonDao {
 
     @Query("SELECT * FROM person_table ORDER BY name ASC ")
     fun setPerson(): Flow<Person>
+
 }

@@ -125,70 +125,65 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frame_chart">
 
-        <TextView
-            android:id="@+id/tv_day"
-            android:layout_width="29dp"
-            android:layout_height="19dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="28dp"
-            android:fontFamily="@font/roboto"
-            android:letterSpacing="-0.02"
-            android:lineHeight="19sp"
+        <Button
+            android:id="@+id/button_day"
+            android:layout_width="45dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="26dp"
+            android:backgroundTint="@drawable/button_selector"
+            android:gravity="center"
             android:text="@string/day"
-            android:textColor="@color/text"
-            tools:targetApi="p" />
+            android:textColor="@drawable/text_color_selected"
+            tools:ignore="SmallSp,SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
-        <TextView
-            android:id="@+id/tv_week"
-            android:layout_width="29dp"
-            android:layout_height="19dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="28dp"
-            android:fontFamily="@font/roboto"
-            android:letterSpacing="-0.02"
-            android:lineHeight="19sp"
+        <Button
+            android:id="@+id/button_week"
+            android:layout_width="45dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="26dp"
+            android:backgroundTint="@drawable/button_selector"
             android:text="@string/week"
-            android:textColor="@color/text"
-            tools:targetApi="p" />
+            android:gravity="center"
+            android:textColor="@drawable/text_color_selected"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
-        <TextView
-            android:id="@+id/tv_month"
-            android:layout_width="29dp"
-            android:layout_height="19dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="28dp"
-            android:fontFamily="@font/roboto"
-            android:letterSpacing="-0.02"
-            android:lineHeight="19sp"
+        <Button
+            android:id="@+id/button_month"
+            android:layout_width="45dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="26dp"
+            android:backgroundTint="@drawable/button_selector"
             android:text="@string/month"
-            android:textColor="@color/text"
-            tools:targetApi="p" />
+            android:gravity="center"
+            android:textColor="@drawable/text_color_selected"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
-        <TextView
-            android:id="@+id/tv_year"
-            android:layout_width="29dp"
-            android:layout_height="19dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="28dp"
-            android:fontFamily="@font/roboto"
-            android:letterSpacing="-0.02"
-            android:lineHeight="19sp"
+        <Button
+            android:id="@+id/button_year"
+            android:layout_width="45dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="26dp"
+            android:backgroundTint="@drawable/button_selector"
             android:text="@string/year"
-            android:textColor="@color/text"
-            tools:targetApi="p" />
+            android:gravity="center"
+            android:textColor="@drawable/text_color_selected"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
-        <TextView
-            android:id="@+id/tv_full_period"
-            android:layout_width="29dp"
-            android:layout_height="19dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginTop="28dp"
-            android:fontFamily="@font/roboto"
-            android:letterSpacing="-0.02"
-            android:lineHeight="19sp"
+        <Button
+            android:id="@+id/button_full_period"
+            android:layout_width="45dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="26dp"
+            android:backgroundTint="@drawable/button_selector"
             android:text="@string/all"
-            android:textColor="@color/text"
-            tools:targetApi="p" />
+            android:gravity="center"
+            android:textColor="@drawable/text_color_selected"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     </LinearLayout>
 
