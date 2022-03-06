@@ -39,13 +39,13 @@ class MainApplication: Application(), KoinComponent {
     }
 
     private val repository = module {
-        factory { PersonRepository(get()) }
-        factory { CoinRepository(get()) }
-        factory { CoinDataBaseRepository(get(),get(),get()) }
+        single { PersonRepository(get()) }
+        single { CoinRepository(get()) }
+        single{ CoinDataBaseRepository(get(),get(),get()) }
     }
 
     private val service = module {
-        factory { ChartService }
+        single { ChartService }
     }
 
     private val viewModels = module {
@@ -55,13 +55,13 @@ class MainApplication: Application(), KoinComponent {
     }
 
     private val cloudModule = module {
-        factory { CoinService.apiService() }
+        single { CoinService.apiService() }
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private val internet = module {
-        factory { CheckInternet() }
-        factory { NetworkChangeListener() }
+        single { CheckInternet() }
+        single { NetworkChangeListener() }
     }
 
     private val storageModule = module {
